@@ -46,11 +46,6 @@ android {
         compose = true
     }
 
-    // Menggunakan ekstensi compiler Compose yang sesuai dengan versi Kotlin di bawah 2.0
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.11"
-    }
-
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"

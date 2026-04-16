@@ -10,8 +10,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MaterialTheme { // Ganti dengan nama theme proyekmu
-                AppNavigation() // Panggil tanpa memasukkan apa pun di dalam kurung
+            MaterialTheme {
+                AppNavigation()
             }
         }
     }

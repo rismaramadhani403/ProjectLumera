@@ -1,28 +1,33 @@
 package com.praktikum.lumera.navigation
 
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
 import com.praktikum.lumera.model.CartItem
-// Jika folder atau nama package kamu berbeda, bagian ini akan tetap merah.
-// Cukup hapus baris import yang merah, lalu ketik ulang "LoginScreen", dan tekan Alt + Enter untuk auto-import.
 import com.praktikum.lumera.screens.home.HomeScreen
 import com.praktikum.lumera.screens.cart.CartScreen
 import com.praktikum.lumera.screens.payment.PaymentScreen
 import com.praktikum.lumera.screens.receipt.ReceiptScreen
 
 @Composable
-fun AppNavigation() { // KOSONGKAN bagian dalam kurung ini
+fun AppNavigation() {
     val navController = rememberNavController()
+    // State keranjang belanja
     val cart = remember { mutableStateListOf<CartItem>() }
 
+    // startDestination diatur ke "login"
     NavHost(navController = navController, startDestination = "login") {
+
         composable("login") {
-            LoginScreen(navController) // Ini memanggil fungsi, bukan parameter
+            LoginScreen(navController)
         }
-        composable("register") {
-            RegisterScreen(navController)
-        }
+
+        // Rute "register" sudah dihapus dari sini
 
         composable("home") {
             HomeScreen(navController, cart)
@@ -44,11 +49,17 @@ fun AppNavigation() { // KOSONGKAN bagian dalam kurung ini
 }
 
 @Composable
-fun RegisterScreen(x0: NavHostController) {
-    TODO("Not yet implemented")
-}
+fun LoginScreen(navController: NavHostController) {
+    Column(
+        modifier = Modifier.fillMaxSize().padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text("Halaman Login")
+        Spacer(modifier = Modifier.height(16.dp))
 
-@Composable
-fun LoginScreen(x0: NavHostController) {
-    TODO("Not yet implemented")
+        Button(onClick = { navController.navigate("home") }) {
+            Text("Masuk")
+        }
+    }
 }

@@ -57,13 +57,16 @@ fun HomeScreen(navController: NavController, cart: MutableList<CartItem>) {
 
             items(menuList) { menu ->
 
-                MenuItemCard(menu) {
+                MenuItemCard(menu = menu) {
+                    // Cari apakah item sudah ada di keranjang
+                    val index = cart.indexOfFirst { it.menu.id == menu.id }
 
-                    val existing = cart.find { it.menu.id == menu.id }
-
-                    if (existing != null) {
-                        existing.quantity++
+                    if (index != -1) {
+                        // Jika ada, buat copy objek baru agar Compose mendeteksi perubahan state
+                        val updatedItem = cart[index].copy(quantity = cart[index].quantity + 1)
+                        cart[index] = updatedItem
                     } else {
+                        // Jika belum ada, tambahkan sebagai item baru
                         cart.add(CartItem(menu, 1))
                     }
                 }
