@@ -79,37 +79,48 @@ com.praktikum.lumera
 └── MainActivity.kt
 ```
 ⚙️ Cara Menjalankan Aplikasi
+## ⚙️ Cara Menjalankan Aplikasi
 
-Clone repository:
+1. Clone repository:
+   ```bash
+   git clone https://github.com/rismaramadhani403/ProjectLumera.git
+   
+    2.Buka di Android Studio
 
-git clone https://github.com/username/lumera.git
-Buka di Android Studio
-Pastikan:
-Minimum SDK: 21+
-Compile SDK: 34
-Sync Gradle
-Jalankan aplikasi (▶️)
-💡 Implementasi Penting
-State Keranjang
-val cart = remember { mutableStateListOf<CartItem>() }
-Perhitungan Total Harga
-val total = cart.sumOf { it.menu.price * it.quantity }
-🎯 Tujuan Pengembangan
+    3.Sync Gradle
+
+    4.Jalankan aplikasi (▶️)
+
+  💡 Implementasi
+
+      val cart = remember { mutableStateListOf<CartItem>() }
+
+      val total = cart.sumOf { it.menu.price * it.quantity }
+
+## 🎯 Tujuan
+
 Aplikasi ini dibuat untuk:
-Memahami Jetpack Compose
-Mengimplementasikan navigasi antar halaman
-Mengelola state dalam aplikasi Android
-Membuat simulasi sistem pemesanan cafe
-🚧 Pengembangan Selanjutnya
-Integrasi database (Room / Firebase)
-Login autentikasi real
-Fitur pencarian menu
-UI/UX lebih interaktif
-Integrasi payment gateway
-👨‍💻 Kelompok 4:
-1.Risma Ramadhani(L0324030)
-2.Wizad Akmalia Zulfaa(L0324036)
-3.Zefanya Christian Natasha(L0324037)
-Praktikum Pemrograman Aplikasi Bergerak
-⭐ Penutup
-Lumera Cafe - Sistem Pemesanan Menu merupakan implementasi aplikasi Android modern yang menunjukkan bagaimana proses pemesanan di cafe dapat didigitalisasi secara sederhana, efektif, dan mudah digunakan.
+
+- Memahami penggunaan Jetpack Compose
+  
+- Mengimplementasikan navigasi antar halaman
+  
+- Mengelola state dalam aplikasi Android
+  
+- Membuat simulasi sistem pemesanan menu cafe
+
+
+👥 Kelompok 4
+
+  Risma Ramadhani (L0324030)
+  
+  Wizad Akmalia Zulfa (L0324036)
+  
+  Zefanya Christian Natasha (L0324037)
+
+## ⭐ Penutup
+
+Aplikasi Lumera Cafe merupakan sistem pemesanan menu sederhana berbasis Android menggunakan Jetpack Compose.
+
+
+
