@@ -3,24 +3,30 @@
 📖 Deskripsi
 
 Lumera Cafe - Sistem Pemesanan Menu adalah aplikasi Android yang dikembangkan menggunakan Kotlin dengan teknologi modern seperti Jetpack Compose dan Material 3. Aplikasi ini dirancang untuk mensimulasikan sistem pemesanan menu pada sebuah cafe bernama Lumera.
-
 Melalui aplikasi ini, pengguna dapat melakukan pemesanan makanan dan minuman secara digital dengan alur yang terstruktur, mulai dari login, memilih menu, menambahkan ke keranjang, melakukan pembayaran, hingga menerima struk transaksi. Aplikasi ini memberikan gambaran bagaimana sistem pemesanan cafe dapat diimplementasikan dalam bentuk aplikasi mobile yang sederhana namun fungsional.
+
 ✨ Fitur Utama
+
 🔐 Login Pengguna
 Akses awal sebelum masuk ke sistem
+
 🍽️ Menu Cafe Lumera
 Menampilkan daftar makanan dan minuman
 Tampilan modern dan user-friendly
+
 🛒 Keranjang Pesanan
 Menyimpan menu yang dipilih
 Mengatur jumlah pesanan
 Menampilkan total harga otomatis
+
 💳 Pembayaran
 Menampilkan total tagihan
 Simulasi pembayaran sederhana
+
 🧾 Struk Transaksi
 Menampilkan detail pesanan
 Ringkasan pembayaran
+
 🔄 Alur Sistem
 Alur penggunaan aplikasi:
 Pengguna login ke aplikasi
@@ -29,6 +35,7 @@ Menambahkan pesanan ke keranjang
 Melakukan checkout
 Melakukan pembayaran
 Melihat struk transaksi
+
 📸 Preview Aplikasi
 Tambahkan screenshot di folder /screenshots
 [Login]
@@ -52,6 +59,7 @@ Navigation Compose
 State Management (Compose State)
 📂 Struktur Proyek
 com.praktikum.lumera
+
 │
 ├── navigation/
 │   └── AppNavigation.kt
@@ -67,6 +75,7 @@ com.praktikum.lumera
 │   └── CartItem.kt
 │
 └── MainActivity.kt
+
 ⚙️ Cara Menjalankan Aplikasi
 
 Clone repository:
