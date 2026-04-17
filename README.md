@@ -122,5 +122,7 @@ Aplikasi ini dibuat untuk:
 
 Aplikasi Lumera Cafe merupakan sistem pemesanan menu sederhana berbasis Android menggunakan Jetpack Compose.
 
+Link YouTube https://youtube.com/shorts/-Vl_JvW_uEo?feature=share
+
 
 
