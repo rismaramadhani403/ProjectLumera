@@ -58,8 +58,10 @@ Material 3
 Navigation Compose
 State Management (Compose State)
 📂 Struktur Proyek
-com.praktikum.lumera
+## 📂 Struktur Proyek
 
+```bash
+com.praktikum.lumera
 │
 ├── navigation/
 │   └── AppNavigation.kt
@@ -75,7 +77,7 @@ com.praktikum.lumera
 │   └── CartItem.kt
 │
 └── MainActivity.kt
-
+```
 ⚙️ Cara Menjalankan Aplikasi
 
 Clone repository:
