@@ -92,7 +92,7 @@ Aplikasi ini dibuat untuk memenuhi tugas praktikum dengan fokus pada **Navigatio
 • Data disimpan sementara (in-memory)  
 
 ---
-## 🔄 Alur Aplikasi
+🔄 Alur Aplikasi
 
 ### 1. Login
 <p align="center">
@@ -148,7 +148,7 @@ Aplikasi ini dibuat untuk memenuhi tugas praktikum dengan fokus pada **Navigatio
 <p align="center">
   <img src="https://github.com/user-attachments/assets/90f561f7-b1c2-481c-9561-b538d4c21e5c" width="300"/>
 </p>
-## 🔄 Alur Aplikasi
+🔄 Alur Aplikasi
 
 **Penjelasan:**
 
