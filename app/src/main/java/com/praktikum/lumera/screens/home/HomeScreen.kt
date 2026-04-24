@@ -9,13 +9,17 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.praktikum.lumera.data.MenuData
 import com.praktikum.lumera.model.CartItem
+import com.praktikum.lumera.model.Menu
 import com.praktikum.lumera.components.MenuItemCard
 
 @Composable
-fun HomeScreen(navController: NavController, cart: MutableList<CartItem>) {
+fun HomeScreen(
+    cart: MutableList<CartItem>,
+    onCartClick: () -> Unit,
+    onSelectMenu: (Menu) -> Unit
+) {
 
     var selectedCategory by remember { mutableStateOf("Coffee") }
 
@@ -58,15 +62,17 @@ fun HomeScreen(navController: NavController, cart: MutableList<CartItem>) {
             items(menuList) { menu ->
 
                 MenuItemCard(menu = menu) {
-                    // Cari apakah item sudah ada di keranjang
+
+                    onSelectMenu(menu)
+
                     val index = cart.indexOfFirst { it.menu.id == menu.id }
 
                     if (index != -1) {
-                        // Jika ada, buat copy objek baru agar Compose mendeteksi perubahan state
-                        val updatedItem = cart[index].copy(quantity = cart[index].quantity + 1)
+                        val updatedItem = cart[index].copy(
+                            quantity = cart[index].quantity + 1
+                        )
                         cart[index] = updatedItem
                     } else {
-                        // Jika belum ada, tambahkan sebagai item baru
                         cart.add(CartItem(menu, 1))
                     }
                 }
@@ -74,7 +80,7 @@ fun HomeScreen(navController: NavController, cart: MutableList<CartItem>) {
         }
 
         Button(
-            onClick = { navController.navigate("cart") },
+            onClick = onCartClick,
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Lihat Keranjang")

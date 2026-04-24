@@ -1,65 +1,88 @@
 package com.praktikum.lumera.navigation
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.*
+import androidx.compose.runtime.mutableStateListOf
 import com.praktikum.lumera.model.CartItem
-import com.praktikum.lumera.screens.home.HomeScreen
+import com.praktikum.lumera.model.Menu
 import com.praktikum.lumera.screens.cart.CartScreen
+import com.praktikum.lumera.screens.home.HomeScreen
 import com.praktikum.lumera.screens.payment.PaymentScreen
 import com.praktikum.lumera.screens.receipt.ReceiptScreen
+import com.praktikum.lumera.screens.login.LoginScreen
+import com.praktikum.lumera.screens.detail.DetailScreen
+import com.praktikum.lumera.screens.register.RegisterScreen
 
 @Composable
 fun AppNavigation() {
-    val navController = rememberNavController()
-    // State keranjang belanja
+
+    val backStack = remember { mutableStateListOf<Screen>(Screen.Login) }
     val cart = remember { mutableStateListOf<CartItem>() }
 
-    // startDestination diatur ke "login"
-    NavHost(navController = navController, startDestination = "login") {
+    val currentScreen = backStack.last()
 
-        composable("login") {
-            LoginScreen(navController)
-        }
+    when (currentScreen) {
 
-        // Rute "register" sudah dihapus dari sini
+        is Screen.Login -> LoginScreen(
+            onLogin = {
+                backStack.add(Screen.Home)
+            },
+            onRegisterClick = {
+                backStack.add(Screen.Register)
+            }
+        )
 
-        composable("home") {
-            HomeScreen(navController, cart)
-        }
+        is Screen.Register -> RegisterScreen(
+            onBack = {
+                backStack.removeLastOrNull()
+            }
+        )
 
-        composable("cart") {
-            CartScreen(navController, cart)
-        }
+        is Screen.Home -> HomeScreen(
+            cart = cart,
+            onCartClick = {
+                backStack.add(Screen.Cart)
+            },
+            onSelectMenu = { menu: Menu ->
+                backStack.add(Screen.Detail(menu.name, menu.price))
+            }
+        )
 
-        composable("payment") {
-            val total = cart.sumOf { it.menu.price * it.quantity }
-            PaymentScreen(navController, total)
-        }
+        is Screen.Detail -> DetailScreen(
+            itemName = currentScreen.itemName,
+            price = currentScreen.price,
+            onBack = { backStack.removeLastOrNull() },
+            onAddToCart = {
+                backStack.add(Screen.Cart)
+            }
+        )
 
-        composable("receipt") {
-            ReceiptScreen(cart, navController)
-        }
-    }
-}
+        is Screen.Cart -> CartScreen(
+            cart = cart,
+            onBack = { backStack.removeLastOrNull() },
+            onCheckout = {
+                backStack.add(Screen.Payment)
+            }
+        )
 
-@Composable
-fun LoginScreen(navController: NavHostController) {
-    Column(
-        modifier = Modifier.fillMaxSize().padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Text("Halaman Login")
-        Spacer(modifier = Modifier.height(16.dp))
+        is Screen.Payment -> PaymentScreen(
+            total = cart.sumOf { it.menu.price * it.quantity },
+            onBack = { backStack.removeLastOrNull() },
+            onPay = {
+                backStack.add(Screen.Receipt)
+            }
+        )
 
-        Button(onClick = { navController.navigate("home") }) {
-            Text("Masuk")
-        }
+        is Screen.Receipt -> ReceiptScreen(
+            cart = cart,
+            onFinish = {
+                cart.clear()
+                backStack.clear()
+                backStack.add(Screen.Login)
+            },
+            onBackToHome = {
+                backStack.clear()
+                backStack.add(Screen.Home)
+            }
+        )
     }
 }

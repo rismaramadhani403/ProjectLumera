@@ -1,4 +1,4 @@
-package com.praktikum.lumera.screens.payment
+package com.praktikum.lumera.screens.detail
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -9,10 +9,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun PaymentScreen(
-    total: Int,
+fun DetailScreen(
+    itemName: String,
+    price: Int,
     onBack: () -> Unit,
-    onPay: () -> Unit
+    onAddToCart: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -21,8 +22,7 @@ fun PaymentScreen(
     ) {
 
         Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Start
+            modifier = Modifier.fillMaxWidth()
         ) {
             IconButton(onClick = onBack) {
                 Icon(Icons.Default.ArrowBack, contentDescription = "Back")
@@ -31,26 +31,23 @@ fun PaymentScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Text(
-            text = "Payment",
-            style = MaterialTheme.typography.headlineMedium
-        )
+        Text("Detail Menu", style = MaterialTheme.typography.headlineMedium)
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Text("Total yang harus dibayar:")
-        Text(
-            text = "Rp $total",
-            style = MaterialTheme.typography.headlineSmall
-        )
+        Text(itemName, style = MaterialTheme.typography.titleLarge)
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Text("Harga: Rp $price", style = MaterialTheme.typography.bodyLarge)
 
         Spacer(modifier = Modifier.height(24.dp))
 
         Button(
-            onClick = onPay,
+            onClick = onAddToCart,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Bayar Sekarang")
+            Text("Tambah ke Keranjang")
         }
     }
 }
