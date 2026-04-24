@@ -9,12 +9,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import com.praktikum.lumera.model.UserData
+import kotlinx.coroutines.launch
 
 @Composable
 fun RegisterScreen(onBack: () -> Unit) {
 
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
 
     Box(
         modifier = Modifier
@@ -29,6 +34,11 @@ fun RegisterScreen(onBack: () -> Unit) {
             Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
         }
 
+        SnackbarHost(
+            hostState = snackbarHostState,
+            modifier = Modifier.align(Alignment.BottomCenter)
+        )
+
         Column(
             modifier = Modifier
                 .align(Alignment.Center)
@@ -36,10 +46,7 @@ fun RegisterScreen(onBack: () -> Unit) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            Text(
-                text = "Register",
-                style = MaterialTheme.typography.headlineMedium
-            )
+            Text("Register", style = MaterialTheme.typography.headlineMedium)
 
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -56,16 +63,30 @@ fun RegisterScreen(onBack: () -> Unit) {
                 value = password,
                 onValueChange = { password = it },
                 label = { Text("Password") },
-                visualTransformation = PasswordVisualTransformation(), // 🔥 biar hidden
+                visualTransformation = PasswordVisualTransformation(),
                 modifier = Modifier.fillMaxWidth()
             )
 
             Spacer(modifier = Modifier.height(20.dp))
 
             Button(
-                onClick = onBack,
+                onClick = {
+                    scope.launch {
+
+                        if (UserData.isUserExists(username)) {
+                            snackbarHostState.showSnackbar("Username sudah terdaftar!")
+                        } else {
+                            UserData.addUser(username, password)
+                            snackbarHostState.showSnackbar("Akun berhasil didaftarkan!")
+
+                            kotlinx.coroutines.delay(1000)
+                            onBack()
+                        }
+
+                    }
+                },
                 modifier = Modifier.fillMaxWidth(),
-                enabled = username.isNotEmpty() && password.isNotEmpty() // 🔥 validasi
+                enabled = username.isNotEmpty() && password.isNotEmpty()
             ) {
                 Text("Daftar")
             }
