@@ -1,128 +1,178 @@
-☕Lumera Cafe - Sistem Pemesanan Menu
+☕ Lumera Cafe App
 
-📖 Deskripsi
+Aplikasi Sistem Pemesanan Menu Cafe berbasis Android yang dikembangkan menggunakan Kotlin dan Jetpack Compose. Aplikasi ini memungkinkan pengguna untuk melakukan pemesanan menu secara interaktif mulai dari proses login hingga pembayaran, dengan alur navigasi yang terstruktur dan pengalaman pengguna (UX) yang baik.
 
-Lumera Cafe - Sistem Pemesanan Menu adalah aplikasi Android yang dikembangkan menggunakan Kotlin dengan teknologi modern seperti Jetpack Compose dan Material 3. Aplikasi ini dirancang untuk mensimulasikan sistem pemesanan menu pada sebuah cafe bernama Lumera.
-Melalui aplikasi ini, pengguna dapat melakukan pemesanan makanan dan minuman secara digital dengan alur yang terstruktur, mulai dari login, memilih menu, menambahkan ke keranjang, melakukan pembayaran, hingga menerima struk transaksi. Aplikasi ini memberikan gambaran bagaimana sistem pemesanan cafe dapat diimplementasikan dalam bentuk aplikasi mobile yang sederhana namun fungsional.
+📌 Deskripsi Aplikasi
 
-✨ Fitur Utama
+Lumera Cafe App merupakan aplikasi sederhana yang mensimulasikan sistem pemesanan di sebuah cafe. Pengguna dapat:
 
-🔐 Login Pengguna
-Akses awal sebelum masuk ke sistem
+-Login atau mendaftar akun
 
-🍽️ Menu Cafe Lumera
-Menampilkan daftar makanan dan minuman
-Tampilan modern dan user-friendly
+-Melihat daftar menu berdasarkan kategori
 
-🛒 Keranjang Pesanan
-Menyimpan menu yang dipilih
-Mengatur jumlah pesanan
-Menampilkan total harga otomatis
+-Melihat detail menu
 
-💳 Pembayaran
-Menampilkan total tagihan
-Simulasi pembayaran sederhana
+-Menambahkan item ke keranjang
 
-🧾 Struk Transaksi
-Menampilkan detail pesanan
-Ringkasan pembayaran
+-Melakukan pembayaran
 
-🔄 Alur Sistem
-Alur penggunaan aplikasi:
-Pengguna login ke aplikasi
-Memilih menu makanan/minuman dari cafe Lumera
-Menambahkan pesanan ke keranjang
-Melakukan checkout
-Melakukan pembayaran
-Melihat struk transaksi
+-Melihat struk pembelian
 
-📸 Preview Aplikasi
-Tambahkan screenshot di folder /screenshots
-[Login]
-<img width="1918" height="985" alt="image" src="https://github.com/user-attachments/assets/d354d081-701f-4aa8-9ea7-9bc97b416ab0" />
-[Menu]
-Kopi
-<img width="1919" height="1019" alt="image" src="https://github.com/user-attachments/assets/f4978cdb-9a3e-476d-a3cd-2b04cd352240" />
-Deseert
-<img width="1919" height="1018" alt="image" src="https://github.com/user-attachments/assets/fcd5f344-cf35-42d0-97e4-50981b652003" />
-[Cart]
-<img width="1919" height="985" alt="image" src="https://github.com/user-attachments/assets/142336f0-c036-4166-a5c0-9a1cfe189fd8" />
-[Payment]
-<img width="1913" height="1018" alt="image" src="https://github.com/user-attachments/assets/7e95febc-6589-4573-b859-16e05b92ff2b" />
-[Receipt]
-<img width="1915" height="1025" alt="image" src="https://github.com/user-attachments/assets/2fe9b990-c623-4f47-be59-97f3e1744998" />
-🛠️ Teknologi yang Digunakan
-Kotlin
-Jetpack Compose
-Material 3
-Navigation Compose
-State Management (Compose State)
-📂 Struktur Proyek
-## 📂 Struktur Proyek
+Aplikasi ini dibuat untuk memenuhi tugas praktikum dengan fokus pada Navigation 3 (state-driven navigation) serta penerapan konsep UI modern menggunakan Jetpack Compose.
 
-```bash
-com.praktikum.lumera
-│
-├── navigation/
-│   └── AppNavigation.kt
-│
-├── screens/
-│   ├── login/
-│   ├── home/
-│   ├── cart/
-│   ├── payment/
-│   └── receipt/
-│
-├── model/
-│   └── CartItem.kt
-│
-└── MainActivity.kt
-```
-⚙️ Cara Menjalankan Aplikasi
-## ⚙️ Cara Menjalankan Aplikasi
+🎯 Tujuan Pengembangan
+1. Mengimplementasikan Jetpack Compose dalam pembuatan UI Android
+2. Menerapkan Navigation 3 (state-based navigation) tanpa NavController
+3. Menghubungkan antar screen dalam satu alur aplikasi
+4. Menerapkan passing data antar screen
+5. Meningkatkan pengalaman pengguna melalui validasi dan feedback
 
-1. Clone repository:
-   ```bash
-   git clone https://github.com/rismaramadhani403/ProjectLumera.git
+🚀 Fitur Utama
+
+🔐 1. Authentication (Login & Register)
+
+      -Login dengan validasi input (tidak boleh kosong)
+      
+      -Register akun baru
+      
+      -Validasi username unik (tidak bisa daftar 2x)
+      
+      -Password disembunyikan (secure input)
+      
+      -Notifikasi menggunakan Snackbar
+
+🧭 2. Navigation (Navigation 3)
+
+      -Menggunakan state-driven navigation
+      
+      -Tidak menggunakan NavController
+      
+      -Menggunakan backStack manual:
+      
+         -add() → pindah screen
+         
+         -removeLastOrNull() → kembali
+         
+      -Navigasi antar screen berjalan tanpa crash
+      
+🛒 3. Sistem Pemesanan
+
+      -Menampilkan menu berdasarkan kategori (Coffee & Dessert)
+      
+      -Menampilkan dalam bentuk grid
+      
+      -Tambah menu ke keranjang
+      
+      -Update quantity otomatis jika item sudah ada
+      
+      -Hapus item dari keranjang
+      
+📄 4. Detail Menu
+
+      -Menampilkan nama menu
+      
+      -Menampilkan harga
+      
+      -Passing data dari Home ke Detail
+      
+💳 5. Payment & Receipt
+
+      -Menampilkan total harga
+      
+      -Menampilkan daftar item yang dibeli
+      
+      -Format harga dalam rupiah
+      
+      -Menampilkan waktu transaksi
+      
+      Tombol:
+      
+      Selesai → kembali ke login + reset cart
+      
+      Kembali ke Home → kembali ke menu
+      
+📦 6. Manajemen Data
+
+      -UserData untuk menyimpan akun
+      
+      -CartItem untuk keranjang
+      
+      -Validasi login dan register
+      
+      -Data disimpan sementara (in-memory)
+      
+🔄 Alur Aplikasi
+1. Login
+
+<img width="435" height="734" alt="image" src="https://github.com/user-attachments/assets/8051a335-0eb7-4672-bbfa-98732a4ea74b" />
+
+
+2. Register
+
+<img width="410" height="773" alt="image" src="https://github.com/user-attachments/assets/0a20f26f-2323-466a-b889-c95aea986759" />
+
+
+3. Login 
+
+<img width="405" height="779" alt="image" src="https://github.com/user-attachments/assets/072a31cf-1371-430e-b6de-9e4ae5b83e69" />
+
+
+4. Home
+
+<img width="439" height="775" alt="image" src="https://github.com/user-attachments/assets/7d3b8162-a5fb-4563-959c-319de8ee6c85" />
+
+
+<img width="402" height="775" alt="image" src="https://github.com/user-attachments/assets/96d0ca3a-6236-488f-9552-31ca66320d84" />
+
+
+5. Detail
+
+<img width="416" height="776" alt="image" src="https://github.com/user-attachments/assets/463dbf03-1053-4504-a81a-b40b09a85bd1" />
+
+
+6. Cart
+
+<img width="416" height="777" alt="image" src="https://github.com/user-attachments/assets/a119738b-ef06-4df7-9a6e-00d0aa708cbc" />
+
+
+7. Payment
+
+<img width="438" height="775" alt="image" src="https://github.com/user-attachments/assets/0f8182d9-a6de-4b19-9590-74a3c8a5cea8" />
+
+
+8. Receipt
+
+<img width="405" height="770" alt="image" src="https://github.com/user-attachments/assets/90f561f7-b1c2-481c-9561-b538d4c21e5c" />
+
+
+
+Penjelasan:
+1. User login atau register terlebih dahulu
+2. Masuk ke halaman Home (menu)
+3. Pilih menu → masuk Detail
+4. Tambah ke cart
+5. Checkout → Payment
+6. Bayar → Receipt
+7. Selesai atau kembali ke Home
+
+🧱 Teknologi yang Digunakan
+1. Kotlin
+2. Jetpack Compose
+3. Material 3
+4. State Management:
    
-    2.Buka di Android Studio
-
-    3.Sync Gradle
-
-    4.Jalankan aplikasi (▶️)
-
-  💡 Implementasi
-
-      val cart = remember { mutableStateListOf<CartItem>() }
-
-      val total = cart.sumOf { it.menu.price * it.quantity }
-
-## 🎯 Tujuan
-
-Aplikasi ini dibuat untuk:
-
-- Memahami penggunaan Jetpack Compose
-  
-- Mengimplementasikan navigasi antar halaman
-  
-- Mengelola state dalam aplikasi Android
-  
-- Membuat simulasi sistem pemesanan menu cafe
+   -remember
+   
+   -mutableStateOf
+   
+   -mutableStateListOf
+6. Navigation 3 (State-driven navigation)
 
 
-👥 Kelompok 4
 
-  Risma Ramadhani (L0324030)
-  
-  Wizad Akmalia Zulfa (L0324036)
-  
-  Zefanya Christian Natasha (L0324037)
 
-## ⭐ Penutup
 
-Aplikasi Lumera Cafe merupakan sistem pemesanan menu sederhana berbasis Android menggunakan Jetpack Compose.
 
-Link YouTube https://youtube.com/shorts/-Vl_JvW_uEo?feature=share
 
 
 
