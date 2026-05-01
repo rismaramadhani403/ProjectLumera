@@ -150,8 +150,8 @@ var showDialog by remember { mutableStateOf(false) }
 
 ### 4. Home
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/7d3b8162-a5fb-4563-959c-319de8ee6c85" width="300"/>
-  <img src="https://github.com/user-attachments/assets/96d0ca3a-6236-488f-9552-31ca66320d84" width="300"/>
+  <img width="300" alt="Screenshot 2026-05-01 154651" src="https://github.com/user-attachments/assets/0be8fd74-07c3-4e14-aaf9-3b66fd0a0dca" />
+  <img width="300" alt="Screenshot 2026-05-01 154722" src="https://github.com/user-attachments/assets/6a6e00e3-5d4e-4f00-8f4c-7c8916449307" />
 </p>
 
 ---
@@ -181,6 +181,8 @@ var showDialog by remember { mutableStateOf(false) }
 <p align="center">
   <img width="300"  alt="Screenshot 2026-05-01 155327" src="https://github.com/user-attachments/assets/1f59eb30-ecbc-41ed-bbef-20aecf8a8331" />
 </p>
+
+---
 🔄 Alur Aplikasi
 
 **Penjelasan:**
