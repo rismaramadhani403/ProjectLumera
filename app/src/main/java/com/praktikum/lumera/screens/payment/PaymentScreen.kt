@@ -7,6 +7,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import java.text.NumberFormat
+import java.util.Locale
 
 @Composable
 fun PaymentScreen(
@@ -14,6 +16,9 @@ fun PaymentScreen(
     onBack: () -> Unit,
     onPay: () -> Unit
 ) {
+
+    val formatRupiah = NumberFormat.getInstance(Locale("in", "ID"))
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -39,8 +44,9 @@ fun PaymentScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         Text("Total yang harus dibayar:")
+
         Text(
-            text = "Rp $total",
+            text = "Rp ${formatRupiah.format(total)}",
             style = MaterialTheme.typography.headlineSmall
         )
 
