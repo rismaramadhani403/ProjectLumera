@@ -29,6 +29,39 @@ Aplikasi ini dibuat untuk memenuhi tugas praktikum dengan fokus pada **Navigatio
 
 ---
 
+## 📚 Penyesuaian Berdasarkan Materi Week 6
+
+Aplikasi Lumera Cafe telah dikembangkan sesuai dengan materi praktikum Week 6 yang mencakup implementasi **Lazy List**, **Alert Dialog**, dan **Bottom Sheet** pada Jetpack Compose.
+
+### 🔹 1. Lazy List
+
+Aplikasi menggunakan komponen Lazy List untuk menampilkan data secara efisien:
+
+- **LazyVerticalGrid** → digunakan pada halaman Home untuk menampilkan menu dalam bentuk grid  
+- **LazyColumn** → digunakan pada halaman Cart untuk menampilkan daftar item  
+
+Implementasi ini membuat aplikasi:
+- Lebih efisien dalam rendering data
+- Tidak membebani performa meskipun data banyak
+- Mendukung scroll secara optimal  
+
+📌 Sesuai materi: penggunaan LazyColumn & LazyVerticalGrid :contentReference[oaicite:0]{index=0}  
+
+---
+
+### 🔹 2. Alert Dialog
+
+Alert Dialog digunakan untuk konfirmasi aksi penting:
+
+- Konfirmasi hapus item di Cart
+- Mencegah kesalahan pengguna (accidental delete)
+
+Menggunakan state:
+kotlin
+var showDialog by remember { mutableStateOf(false) }
+
+---
+
 ## 🚀 Fitur Utama
 
 ### 🔐 1. Authentication (Login & Register)
@@ -132,21 +165,21 @@ Aplikasi ini dibuat untuk memenuhi tugas praktikum dengan fokus pada **Navigatio
 
 ### 6. Cart
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/a119738b-ef06-4df7-9a6e-00d0aa708cbc" width="300"/>
+  <img width="300" alt="Screenshot 2026-05-01 155141" src="https://github.com/user-attachments/assets/98da073f-a84b-4d0a-8c62-c369d5777b8a" />
 </p>
 
 ---
 
 ### 7. Payment
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/0f8182d9-a6de-4b19-9590-74a3c8a5cea8" width="300"/>
+  <img width="300" alt="Screenshot 2026-05-01 155251" src="https://github.com/user-attachments/assets/cadfa524-7d4c-4bd2-84e6-546297157a02" />
 </p>
 
 ---
 
 ### 8. Receipt
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/90f561f7-b1c2-481c-9561-b538d4c21e5c" width="300"/>
+  <img width="300"  alt="Screenshot 2026-05-01 155327" src="https://github.com/user-attachments/assets/1f59eb30-ecbc-41ed-bbef-20aecf8a8331" />
 </p>
 🔄 Alur Aplikasi
 
