@@ -6,20 +6,26 @@ import androidx.compose.material3.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.*
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.praktikum.lumera.model.Menu
+import java.text.NumberFormat
+import java.util.Locale
 
 @Composable
 fun MenuItemCard(menu: Menu, onAdd: () -> Unit) {
 
+    val formatRupiah = remember {
+        NumberFormat.getInstance(Locale("in", "ID"))
+    }
+
     Card(
-        modifier = Modifier
-            .padding(8.dp)
-            .fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
+        elevation = CardDefaults.cardElevation(2.dp)
     ) {
 
         Column(
@@ -28,17 +34,26 @@ fun MenuItemCard(menu: Menu, onAdd: () -> Unit) {
         ) {
 
             Image(
-                painter = painterResource(menu.image),
+                painter = painterResource(id = menu.image),
                 contentDescription = menu.name,
-                modifier = Modifier.height(100.dp),
+                modifier = Modifier
+                    .height(80.dp)
+                    .fillMaxWidth(),
                 contentScale = ContentScale.Crop
             )
 
-            Text(menu.name)
-            Text("Rp ${menu.price}")
+            Spacer(modifier = Modifier.height(4.dp))
 
-            Row {
-                Icon(Icons.Default.Favorite, null, tint = Color.Red)
+            Text(menu.name)
+
+            Text("Rp ${formatRupiah.format(menu.price)}")
+
+            Spacer(modifier = Modifier.height(4.dp))
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(Icons.Default.Favorite, contentDescription = null, tint = Color.Red)
 
                 Spacer(modifier = Modifier.width(8.dp))
 
