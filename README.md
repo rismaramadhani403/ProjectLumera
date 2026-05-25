@@ -125,28 +125,124 @@ LUMERA uses the **MVVM (Model View ViewModel)** architecture.
 # 📂 Project Structure
 
 ```bash
-app
- ┣ data
- ┣ model
- ┣ navigation
- ┣ screens
- ┃ ┣ admin
- ┃ ┣ auth
- ┃ ┣ cart
- ┃ ┣ payment
- ┃ ┣ home
- ┃ ┣ history
- ┃ ┣ profile
- ┃ ┣ cashier
- ┃ ┗ address
- ┣ components
- ┣ utils
- ┣ datastore
- ┣ viewmodel
- ┗ ui.theme
+LUMERA App
+│
+├── app
+│   └── src
+│       ├── androidTest
+│       │   └── java/com/praktikum/lumera
+│       │       └── ExampleInstrumentedTest.kt
+│       │
+│       ├── main
+│       │   │
+│       │   ├── AndroidManifest.xml
+│       │   │
+│       │   ├── java
+│       │   │   ├── AppNavigation.kt
+│       │   │   │
+│       │   │   └── com/praktikum/lumera
+│       │   │       │
+│       │   │       ├── components
+│       │   │       │   └── MenuItemCard.kt
+│       │   │       │
+│       │   │       ├── data
+│       │   │       │   ├── MenuData.kt
+│       │   │       │   ├── SessionManager.kt
+│       │   │       │   └── UserPreferences.kt
+│       │   │       │
+│       │   │       ├── model
+│       │   │       │   ├── CartItem.kt
+│       │   │       │   ├── Menu.kt
+│       │   │       │   ├── OrderHistory.kt
+│       │   │       │   ├── OrderHistoryData.kt
+│       │   │       │   ├── Transaction.kt
+│       │   │       │   └── User.kt
+│       │   │       │
+│       │   │       ├── navigation
+│       │   │       │   └── Routes.kt
+│       │   │       │
+│       │   │       ├── screens
+│       │   │       │   │
+│       │   │       │   ├── address
+│       │   │       │   │   └── DeliveryAddressScreen.kt
+│       │   │       │   │
+│       │   │       │   ├── admin
+│       │   │       │   │   └── AdminScreen.kt
+│       │   │       │   │
+│       │   │       │   ├── cart
+│       │   │       │   │   └── CartScreen.kt
+│       │   │       │   │
+│       │   │       │   ├── detail
+│       │   │       │   │   └── DetailScreen.kt
+│       │   │       │   │
+│       │   │       │   ├── history
+│       │   │       │   │   └── OrderHistoryScreen.kt
+│       │   │       │   │
+│       │   │       │   ├── home
+│       │   │       │   │   └── HomeScreen.kt
+│       │   │       │   │
+│       │   │       │   ├── login
+│       │   │       │   │   └── LoginScreen.kt
+│       │   │       │   │
+│       │   │       │   ├── notification
+│       │   │       │   │   └── NotificationScreen.kt
+│       │   │       │   │
+│       │   │       │   ├── onboarding
+│       │   │       │   │   └── OnboardingScreen.kt
+│       │   │       │   │
+│       │   │       │   ├── payment
+│       │   │       │   │   └── PaymentScreen.kt
+│       │   │       │   │
+│       │   │       │   ├── paymentmethod
+│       │   │       │   │   └── PaymentMethodScreen.kt
+│       │   │       │   │
+│       │   │       │   ├── profile
+│       │   │       │   │   └── ProfileScreen.kt
+│       │   │       │   │
+│       │   │       │   ├── receipt
+│       │   │       │   │   └── ReceiptScreen.kt
+│       │   │       │   │
+│       │   │       │   ├── register
+│       │   │       │   │   └── RegisterScreen.kt
+│       │   │       │   │
+│       │   │       │   ├── settings
+│       │   │       │   │   └── AccountSettingsScreen.kt
+│       │   │       │   │
+│       │   │       │   └── splash
+│       │   │       │       └── SplashScreen.kt
+│       │   │       │
+│       │   │       ├── ui/theme
+│       │   │       │   ├── Color.kt
+│       │   │       │   ├── Font.kt
+│       │   │       │   ├── Theme.kt
+│       │   │       │   └── Type.kt
+│       │   │       │
+│       │   │       ├── utils
+│       │   │       │   └── CurrencyUtils.kt
+│       │   │       │
+│       │   │       ├── viewmodel
+│       │   │       │   ├── MenuViewModel.kt
+│       │   │       │   └── viewmodel.kt
+│       │   │       │
+│       │   │       └── MainActivity.kt
+│       │   │
+│       │   └── res
+│       │       ├── drawable
+│       │       ├── mipmap
+│       │       ├── values
+│       │       └── xml
+│       │
+│       └── test
+│           └── java/com/praktikum/lumera
+│               └── ExampleUnitTest.kt
+│
+├── gradle
+│
+├── build.gradle.kts
+├── settings.gradle.kts
+├── gradle.properties
+└── README.md
 ```
-
----
 
 # 🧠 Android Concepts Implemented
 
