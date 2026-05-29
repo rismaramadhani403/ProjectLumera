@@ -1,855 +1,610 @@
-# ☕ LUMERA - Coffee Shop Mobile App
+# ☕ LUMERA - Coffee Shop Mobile Application
 
 <p align="center">
-  <img width="300" height="600" alt="image" src="https://github.com/user-attachments/assets/76c7c3d6-bbc2-4fc2-815a-71f1001f7c65" />
-  <img width="300" height="600" alt="image" src="https://github.com/user-attachments/assets/6e617279-245e-4b88-8bab-34b7e9371fcf" />
+  <img width="300" height="600" alt="image" src="https://github.com/user-attachments/assets/1af783c6-31d6-4503-94b9-c93d1c9c8b25" />
+  <img width="300" height="600" alt="image" src="https://github.com/user-attachments/assets/acc675a7-1f89-484e-a717-9b6ebdfd1122" />
+
+  <h3 align="center">
+    Modern Coffee Shop Mobile Application Built with Kotlin, Jetpack Compose, MVVM Architecture, DataStore Preferences, and Hilt Dependency Injection
+  </h3>
 </p>
 
-<h3 align="center">
-Modern Coffee Shop Mobile Application built using Kotlin & Jetpack Compose
-</h3>
+---
+
+## 📖 About Project
+
+LUMERA adalah aplikasi mobile berbasis Android yang dirancang untuk memberikan pengalaman pemesanan menu cafe secara digital, modern, dan efisien. Aplikasi ini dikembangkan menggunakan Kotlin dan Jetpack Compose dengan menerapkan berbagai konsep Android Development modern seperti MVVM Architecture, Navigation Compose, DataStore Preferences, serta Dependency Injection menggunakan Hilt.
+
+Aplikasi memungkinkan pengguna untuk melakukan registrasi akun, login, melihat daftar menu, melakukan pemesanan produk, mengelola keranjang belanja, melakukan pembayaran, melihat riwayat transaksi, serta mengelola profil pengguna.
+
+Selain Customer, aplikasi juga mendukung role Admin dan Cashier sehingga dapat digunakan sebagai simulasi sistem manajemen cafe secara menyeluruh.
 
 ---
 
-# 📌 About Project
+## 🎯 Project Objectives
 
-LUMERA is a modern Android-based coffee shop application developed using Kotlin and Jetpack Compose. This application is designed to provide a digital ordering experience for customers with a modern, interactive, elegant, and user-friendly interface.
+Tujuan pengembangan aplikasi LUMERA adalah:
 
-The application supports multiple user roles:
-
-- 👤 Customer
-- 🧑‍💼 Admin
-- 💳 Cashier
-
-LUMERA implements various modern Android Development concepts such as:
-
-- Jetpack Compose
-- MVVM Architecture
-- Navigation Compose
-- State Management
-- DataStore Preferences
-- Session Management
-- CRUD System
-- Payment System
-- Multi Role Authentication
-- Modern UI/UX Design
-
----
-
-# 🎯 Project Objectives
-
-The objectives of developing LUMERA are:
-
-- Build a modern coffee shop mobile application
-- Implement Android modern architecture
-- Provide digital ordering system
-- Create payment & transaction features
-- Implement multi-role user system
-- Improve user experience using modern UI
+* Membangun aplikasi mobile coffee shop modern berbasis Android.
+* Mengimplementasikan arsitektur MVVM pada aplikasi Android.
+* Menggunakan Jetpack Compose sebagai framework UI modern.
+* Mengimplementasikan Navigation Compose untuk perpindahan halaman.
+* Menggunakan DataStore Preferences untuk penyimpanan data lokal.
+* Mengimplementasikan Dependency Injection menggunakan Hilt.
+* Mengelola state aplikasi menggunakan ViewModel.
+* Menciptakan sistem pemesanan digital yang mudah digunakan.
+* Mengembangkan aplikasi yang scalable dan mudah dipelihara.
 
 ---
 
 # ✨ Main Features
 
-# 👤 Customer Features
+## 👤 Customer Features
 
-- Login & Register
-- Browse coffee & dessert menu
-- Search menu
-- Add item to cart
-- Edit item quantity
-- Delete item from cart
-- Checkout order
-- Select payment method
-- Choose order type:
-  - Dine In
-  - Pickup
-  - Delivery
-- Apply promo/voucher
-- Payment receipt
-- Transaction history
-- User profile
-- Logout system
-
----
-
-# 🧑‍💼 Admin Features
-
-- Admin authentication
-- Add product/menu
-- Edit product/menu
-- Delete product/menu
-- Manage product data
-- Transaction monitoring
-- Customer monitoring
-- Dashboard management
+* Register Account
+* Login System
+* Session Management
+* Browse Menu
+* Search Menu
+* Favorite Menu
+* Product Detail
+* Add To Cart
+* Edit Quantity
+* Delete Item
+* Checkout Order
+* Choose Payment Method
+* Apply Promo
+* Receipt Generation
+* Transaction History
+* User Profile
+* Logout System
 
 ---
 
-# 💳 Cashier Features
+## 🧑‍💼 Admin Features
 
-- Cashier authentication
-- View customer order
-- Payment verification
-- Transaction processing
-- Receipt display
-- Transaction status monitoring
-
----
-
-# 🚀 Application Advantages
-
-LUMERA has several advantages:
-
-- Modern UI using Jetpack Compose
-- Clean MVVM Architecture
-- Multi-role authentication system
-- Dynamic cart system
-- Modern payment system
-- Transaction receipt system
-- Responsive UI
-- Reusable components
-- Navigation Compose implementation
-- Session management using DataStore
-- User-friendly interface
-- Elegant coffee shop design
+* Admin Authentication
+* Dashboard Management
+* Add Product
+* Edit Product
+* Delete Product
+* Product Monitoring
+* Customer Monitoring
+* Transaction Monitoring
 
 ---
 
-# 🏗️ Project Architecture
+## 💳 Cashier Features
 
-LUMERA uses the **MVVM (Model View ViewModel)** architecture.
+* Cashier Authentication
+* Order Verification
+* Payment Processing
+* Transaction Monitoring
+* Receipt Verification
+
+---
+
+# 🛠 Technology Stack
+
+| Technology                | Function                      |
+| ------------------------- | ----------------------------- |
+| Kotlin                    | Main Programming Language     |
+| Jetpack Compose           | Modern Android UI Toolkit     |
+| Material Design 3         | User Interface Design         |
+| Navigation Compose        | Navigation Management         |
+| ViewModel                 | State Management              |
+| Kotlin Coroutines         | Asynchronous Programming      |
+| Kotlin Flow               | Reactive Data Stream          |
+| DataStore Preferences     | Local Data Storage            |
+| Hilt Dependency Injection | Dependency Management         |
+| MVVM Architecture         | Software Architecture Pattern |
+
+---
+
+# 🏗️ Software Architecture
+
+Project LUMERA menggunakan pola arsitektur **MVVM (Model View ViewModel)**.
+
+MVVM digunakan untuk memisahkan Business Logic dari User Interface sehingga kode menjadi lebih mudah dipelihara dan dikembangkan.
+
+## MVVM Architecture Flow
+
+```text
+Jetpack Compose UI
+          ↓
+      ViewModel
+          ↓
+      Repository
+          ↓
+      DataStore
+```
+
+### View Layer
+
+Berisi seluruh tampilan aplikasi yang dibangun menggunakan Jetpack Compose.
+
+Contoh:
+
+* LoginScreen
+* HomeScreen
+* DetailScreen
+* CartScreen
+* PaymentScreen
+* ReceiptScreen
+* ProfileScreen
+
+### ViewModel Layer
+
+Berfungsi sebagai penghubung antara UI dan Data Layer.
+
+Contoh:
+
+* SessionViewModel
+* CartViewModel
+* MenuViewModel
+
+### Data Layer
+
+Mengelola sumber data aplikasi.
+
+Contoh:
+
+* UserPreferences
+* MenuData
+* SessionManager
+
+---
+
+# 💉 Dependency Injection with Hilt
+
+## Overview
+
+Pada Pertemuan 10, aplikasi LUMERA dikembangkan lebih lanjut dengan mengimplementasikan Dependency Injection menggunakan Hilt.
+
+Hilt merupakan framework Dependency Injection resmi dari Google yang dibangun di atas Dagger dan dirancang khusus untuk Android.
+
+Dependency Injection digunakan untuk menyediakan dependency yang dibutuhkan suatu class secara otomatis tanpa harus membuat objek secara manual.
+
+---
+
+## Why Hilt?
+
+Implementasi Hilt memberikan beberapa keuntungan:
+
+* Mengurangi boilerplate code
+* Mempermudah dependency management
+* Mengurangi coupling antar class
+* Mempermudah maintenance
+* Mendukung clean architecture
+* Mempermudah testing
+* Meningkatkan scalability project
+
+---
+
+## Hilt Dependencies
+
+```kotlin
+implementation(libs.hilt.android)
+
+kapt(libs.hilt.compiler)
+
+implementation(libs.androidx.hilt.navigation.compose)
+```
+
+---
+
+## Hilt Android App
+
+```kotlin
+@HiltAndroidApp
+class LumeraApplication : Application()
+```
+
+Digunakan untuk mengaktifkan Hilt pada level aplikasi dan membuat dependency container global.
+
+---
+
+## Hilt ViewModel
+
+```kotlin
+@HiltViewModel
+class SessionViewModel @Inject constructor(
+    private val userPreferences: UserPreferences
+) : ViewModel()
+```
+
+Pada implementasi tersebut, UserPreferences akan diberikan secara otomatis oleh Hilt melalui constructor injection.
+
+---
+
+## Hilt with Compose
+
+```kotlin
+val sessionViewModel: SessionViewModel =
+    hiltViewModel()
+```
+
+Hilt akan membuat ViewModel secara otomatis dan menghubungkannya dengan lifecycle Compose.
+
+---
+
+## Updated Architecture with Hilt
+
+```text
+Jetpack Compose UI
+          ↓
+      ViewModel
+          ↓
+       Hilt DI
+          ↓
+   UserPreferences
+          ↓
+      DataStore
+```
+
+---
+
+# 💾 Session Management Using DataStore
+
+LUMERA menggunakan DataStore Preferences sebagai media penyimpanan data lokal.
+
+Data yang disimpan meliputi:
+
+* User Name
+* User Email
+* User Role
+* Login Status
+* Session Information
+
+Keuntungan DataStore:
+
+* Asynchronous
+* Modern API
+* Type Safe
+* Lebih aman dibanding SharedPreferences
+* Direkomendasikan oleh Google
 
 ---
 
 # 📂 Project Structure
 
-```bash
-LUMERA App
+```text
+com.praktikum.lumera
+
+├── components
+├── datastore
+├── di
+├── model
+├── navigation
+├── screens
+│   ├── login
+│   ├── register
+│   ├── home
+│   ├── detail
+│   ├── cart
+│   ├── payment
+│   ├── receipt
+│   ├── history
+│   ├── profile
+│   ├── admin
+│   └── cashier
 │
-├── app
-│   └── src
-│       ├── androidTest
-│       │   └── java/com/praktikum/lumera
-│       │       └── ExampleInstrumentedTest.kt
-│       │
-│       ├── main
-│       │   │
-│       │   ├── AndroidManifest.xml
-│       │   │
-│       │   ├── java
-│       │   │   ├── AppNavigation.kt
-│       │   │   │
-│       │   │   └── com/praktikum/lumera
-│       │   │       │
-│       │   │       ├── components
-│       │   │       │   └── MenuItemCard.kt
-│       │   │       │
-│       │   │       ├── data
-│       │   │       │   ├── MenuData.kt
-│       │   │       │   ├── SessionManager.kt
-│       │   │       │   └── UserPreferences.kt
-│       │   │       │
-│       │   │       ├── model
-│       │   │       │   ├── CartItem.kt
-│       │   │       │   ├── Menu.kt
-│       │   │       │   ├── OrderHistory.kt
-│       │   │       │   ├── OrderHistoryData.kt
-│       │   │       │   ├── Transaction.kt
-│       │   │       │   └── User.kt
-│       │   │       │
-│       │   │       ├── navigation
-│       │   │       │   └── Routes.kt
-│       │   │       │
-│       │   │       ├── screens
-│       │   │       │   │
-│       │   │       │   ├── address
-│       │   │       │   │   └── DeliveryAddressScreen.kt
-│       │   │       │   │
-│       │   │       │   ├── admin
-│       │   │       │   │   └── AdminScreen.kt
-│       │   │       │   │
-│       │   │       │   ├── cart
-│       │   │       │   │   └── CartScreen.kt
-│       │   │       │   │
-│       │   │       │   ├── detail
-│       │   │       │   │   └── DetailScreen.kt
-│       │   │       │   │
-│       │   │       │   ├── history
-│       │   │       │   │   └── OrderHistoryScreen.kt
-│       │   │       │   │
-│       │   │       │   ├── home
-│       │   │       │   │   └── HomeScreen.kt
-│       │   │       │   │
-│       │   │       │   ├── login
-│       │   │       │   │   └── LoginScreen.kt
-│       │   │       │   │
-│       │   │       │   ├── notification
-│       │   │       │   │   └── NotificationScreen.kt
-│       │   │       │   │
-│       │   │       │   ├── onboarding
-│       │   │       │   │   └── OnboardingScreen.kt
-│       │   │       │   │
-│       │   │       │   ├── payment
-│       │   │       │   │   └── PaymentScreen.kt
-│       │   │       │   │
-│       │   │       │   ├── paymentmethod
-│       │   │       │   │   └── PaymentMethodScreen.kt
-│       │   │       │   │
-│       │   │       │   ├── profile
-│       │   │       │   │   └── ProfileScreen.kt
-│       │   │       │   │
-│       │   │       │   ├── receipt
-│       │   │       │   │   └── ReceiptScreen.kt
-│       │   │       │   │
-│       │   │       │   ├── register
-│       │   │       │   │   └── RegisterScreen.kt
-│       │   │       │   │
-│       │   │       │   ├── settings
-│       │   │       │   │   └── AccountSettingsScreen.kt
-│       │   │       │   │
-│       │   │       │   └── splash
-│       │   │       │       └── SplashScreen.kt
-│       │   │       │
-│       │   │       ├── ui/theme
-│       │   │       │   ├── Color.kt
-│       │   │       │   ├── Font.kt
-│       │   │       │   ├── Theme.kt
-│       │   │       │   └── Type.kt
-│       │   │       │
-│       │   │       ├── utils
-│       │   │       │   └── CurrencyUtils.kt
-│       │   │       │
-│       │   │       ├── viewmodel
-│       │   │       │   ├── MenuViewModel.kt
-│       │   │       │   └── viewmodel.kt
-│       │   │       │
-│       │   │       └── MainActivity.kt
-│       │   │
-│       │   └── res
-│       │       ├── drawable
-│       │       ├── mipmap
-│       │       ├── values
-│       │       └── xml
-│       │
-│       └── test
-│           └── java/com/praktikum/lumera
-│               └── ExampleUnitTest.kt
+├── ui
+│   └── theme
 │
-├── gradle
+├── utils
 │
-├── build.gradle.kts
-├── settings.gradle.kts
-├── gradle.properties
-└── README.md
+├── viewmodel
+│
+├── MainActivity.kt
+│
+└── LumeraApplication.kt
 ```
-
-# 🧠 Android Concepts Implemented
-
-| Concept | Description |
-|---|---|
-| MVVM Architecture | UI & Business Logic Separation |
-| Navigation Compose | Navigation between screens |
-| State Management | Compose State Management |
-| DataStore | Session storage |
-| Reusable Components | Reusable UI Components |
-| Material Design 3 | Modern Android UI |
-| Lazy Layout | LazyColumn & LazyRow |
-| Payment System | Digital transaction |
-| Cart System | Dynamic order system |
-| Multi Role User | Admin, Cashier, Customer |
 
 ---
 
 # 🔄 Application Workflow
 
-# 👤 Customer Workflow
+## Customer Workflow
 
 ```text
-Login/Register
-      ↓
-Home Screen
-      ↓
-Choose Menu
-      ↓
-Add To Cart
-      ↓
-Checkout
-      ↓
-Choose Payment Method
-      ↓
-Payment Success
-      ↓
-Receipt Displayed
-      ↓
-Saved to History
+Register / Login
+        ↓
+      Home
+        ↓
+   Select Menu
+        ↓
+   Menu Detail
+        ↓
+    Add To Cart
+        ↓
+     Checkout
+        ↓
+      Payment
+        ↓
+      Receipt
+        ↓
+      History
+        ↓
+      Profile
 ```
 
----
-
-# 🧑‍💼 Admin Workflow
+## Admin Workflow
 
 ```text
 Admin Login
       ↓
-Dashboard Admin
+Dashboard
       ↓
-Manage Menu
+Manage Product
       ↓
-Add/Edit/Delete Product
+Add/Edit/Delete Menu
       ↓
-Menu Updated
+Update Product Data
 ```
 
----
-
-# 💳 Cashier Workflow
+## Cashier Workflow
 
 ```text
 Cashier Login
-      ↓
+       ↓
 Cashier Dashboard
-      ↓
+       ↓
 View Customer Order
-      ↓
+       ↓
 Verify Payment
-      ↓
-Transaction Success
-      ↓
-Receipt Displayed
-```
-
----
-
-# 🎨 UI/UX Design
-
-LUMERA uses a modern coffee shop design concept:
-
-- Elegant UI
-- Modern Layout
-- Soft Color Palette
-- Minimalist Design
-- Responsive Design
-- Interactive Components
-- User Friendly Navigation
-
----
-
-# 💳 Payment System
-
-Supported payment methods:
-
-- QRIS
-- Cash
-- E-Wallet
-- Debit/Credit Card
-
-Payment features:
-
-- Automatic total calculation
-- Transaction verification
-- Payment status
-- Receipt generation
-- Cashier information
-- Customer information
-
----
-
-# 🧾 Receipt System
-
-Receipt transaction displays:
-
-- Customer name
-- Cashier name
-- Ordered items
-- Total payment
-- Payment method
-- Transaction status
-- Transaction date
-
----
-
-# 🔐 Session Management
-
-LUMERA uses **DataStore Preferences** to store:
-
-- Login session
-- User role
-- User data
-- Application session
-
-Advantages:
-
-- Secure
-- Asynchronous
-- Modern
-- Better than SharedPreferences
-
----
-
-# 🧮 Technologies Used
-
-| Technology | Function |
-|---|---|
-| Kotlin | Programming Language |
-| Jetpack Compose | UI Framework |
-| Navigation Compose | Navigation |
-| ViewModel | State Management |
-| DataStore | Session Storage |
-| Android Studio | IDE |
-| Material Design 3 | UI Design |
-
----
-
-# 📦 Dependencies
-
-```kotlin
-implementation("androidx.navigation:navigation-compose")
-implementation("androidx.lifecycle:lifecycle-viewmodel-compose")
-implementation("androidx.datastore:datastore-preferences")
-implementation("androidx.compose.material3:material3")
-implementation("androidx.activity:activity-compose")
+       ↓
+Transaction Complete
 ```
 
 ---
 
 # 📸 Screenshot Documentation
 
-> ⚠️ NOTE:
-> Semua screenshot aplikasi akan ditambahkan pada bagian berikut berdasarkan POV user:
->
-> - 👤 Customer
-> - 🧑‍💼 Admin
-> - 💳 Cashier
-
----
-
-# 👤 CUSTOMER POV
-
-# 📌 Customer Workflow
-
-```text
-Login/Register
-      ↓
-Home Screen
-      ↓
-Choose Menu
-      ↓
-Add To Cart
-      ↓
-Checkout
-      ↓
-Choose Payment Method
-      ↓
-Payment Success
-      ↓
-Receipt Displayed
-      ↓
-Saved to History
-```
-
----
-
-## 1️⃣ Customer Login Screen
-
-📌 Customer login page.
-
-<img width="403" height="851" alt="image" src="https://github.com/user-attachments/assets/f314803d-08d0-4ba2-b538-14f579f0a8af" />
-
----
-
-## 2️⃣ Customer Register Screen
-
-📌 Customer registration page.
-
-<img width="382" height="848" alt="image" src="https://github.com/user-attachments/assets/97460f88-23e7-4278-bfa3-4b102230f10c" />
-
----
-
-## 3️⃣ Customer Home Screen
-
-📌 Displays coffee & dessert menu.
-
-<img width="410" height="832" alt="image" src="https://github.com/user-attachments/assets/0b4cba96-e7dc-47e3-918e-e524c68936c7" />
-
----
-<img width="414" height="844" alt="image" src="https://github.com/user-attachments/assets/3b916f35-ebc0-40a5-8605-49bf5747ad3f" />
-
----
-<img width="414" height="839" alt="image" src="https://github.com/user-attachments/assets/f0369bcb-882f-4af6-bb4b-fba121bdf6f5" />
-
----
-
-## 4️⃣ Customer Detail Menu Screen
-
-📌 Displays selected menu details.
-
-<img width="409" height="833" alt="image" src="https://github.com/user-attachments/assets/ec18c241-a986-4eee-be7c-4f5bcca36666" />
-
----
-<img width="408" height="839" alt="image" src="https://github.com/user-attachments/assets/57d1549b-c206-4518-8a7e-720b2fa0ea2e" />
-
----
-<img width="453" height="901" alt="image" src="https://github.com/user-attachments/assets/c6ff604a-a0e1-4215-840a-dd97c457e38a" />
-
----
-<img width="450" height="929" alt="image" src="https://github.com/user-attachments/assets/42992328-05f2-423e-886e-2426cf0d17cb" />
-
----
-
-## 5️⃣ Customer Cart Screen
-
-📌 Displays cart items & total payment.
-
-<img width="464" height="373" alt="image" src="https://github.com/user-attachments/assets/75f3e801-02b5-41de-95dc-e1b2bee1c9db" />
-
----
-
-<img width="438" height="884" alt="image" src="https://github.com/user-attachments/assets/abb047f7-588e-4f0c-a5b2-f28d51b4a134" />
-
----
-
-## 6️⃣ Customer Checkout Screen
-
-📌 Checkout process before payment.
-
-<img width="438" height="884" alt="image" src="https://github.com/user-attachments/assets/815cd5cc-e110-4263-8919-bd8929210169" />
-
----
-
-## 7️⃣ Customer Payment Screen
-
-📌 Customer chooses payment method.
-
-<img width="432" height="881" alt="image" src="https://github.com/user-attachments/assets/4c00e7ce-fbce-41d1-9758-295ad5a0bc09" />
-
----
-
-## 8️⃣ Customer Promo Screen
-
-📌 Apply promo or voucher discount.
-
-<img width="429" height="908" alt="image" src="https://github.com/user-attachments/assets/b1745865-3f25-41bd-ac21-beebda3eac35" />
-
----
-
-## 9️⃣ Customer Order Type Screen
-
-📌 Select order type:
-- Dine In
-- Pickup
-- Delivery
-
-<img width="438" height="884" alt="image" src="https://github.com/user-attachments/assets/8df2f33b-a7a3-4575-b584-858ed81c7434" />
-
----
-
-## 🔟 Customer Receipt Screen
-
-📌 Displays payment receipt.
-
-<img width="490" height="977" alt="image" src="https://github.com/user-attachments/assets/446bcac4-9838-46d1-b7cf-6723a33ffdf1" />
-
----
-
-## 1️⃣1️⃣ Customer History Screen
-
-📌 Displays transaction history.
-
-<img width="415" height="846" alt="image" src="https://github.com/user-attachments/assets/21339d8c-f09e-4c88-a948-624b19b15bc9" />
-
----
-
-## 1️⃣2️⃣ Customer Profile Screen
-
-📌 Displays customer profile information.
-
-<img width="419" height="853" alt="image" src="https://github.com/user-attachments/assets/253f0b13-dec0-4128-8f3d-e2141ddf42a5" />
-
----
-
-# 🧑‍💼 ADMIN POV
-
-# 📌 Admin Workflow
-
-```text
-Admin Login
-      ↓
-Dashboard Admin
-      ↓
-Manage Menu
-      ↓
-Add Product
-      ↓
-Edit Product
-      ↓
-Delete Product
-      ↓
-Menu Updated
-```
-
----
-
-## 1️⃣ Admin Login Screen
-
-📌 Admin login page.
-
-<img width="424" height="878" alt="image" src="https://github.com/user-attachments/assets/c6c0aa0c-31ad-4d32-b1da-74938ca7be19" />
-
----
-
-## 2️⃣ Admin Dashboard Screen
-
-📌 Main admin dashboard.
-
-<img width="425" height="868" alt="image" src="https://github.com/user-attachments/assets/478a5360-6cb5-451a-a945-0954619c930e" />
-
----
-
-## 3️⃣ Admin Manage Menu Screen
-
-📌 Manage all menu data.
-
-<img width="465" height="988" alt="image" src="https://github.com/user-attachments/assets/5d1f6e04-c1dc-40af-9f15-da4fd2262c60" />
-
----
-
-## 4️⃣ Admin Add Product Screen
-
-📌 Add new menu/product.
-
-<img width="355" height="193" alt="image" src="https://github.com/user-attachments/assets/0f71f2ea-e00f-422d-9b15-dc6444d4257d" />
-
----
-
-## 5️⃣ Admin Edit Product Screen
-
-📌 Edit product information.
-
-<img width="465" height="988" alt="image" src="https://github.com/user-attachments/assets/6c3fc147-03ef-446a-b031-cb3869debc8d" />
-
----
-
-## 6️⃣ Admin Delete Product Screen
-
-📌 Delete product from system.
-
-<img width="465" height="988" alt="image" src="https://github.com/user-attachments/assets/f961928e-5c1c-4c84-a8dc-d41519b0656c" />
-
----
-
-## 7️⃣ Admin Transaction Monitoring Screen
-
-📌 Monitor all transactions.
-
-<img width="480" height="980" alt="image" src="https://github.com/user-attachments/assets/2d7057a3-6cdf-41b7-8507-5f08929ac306" />
-
----
-
-# 💳 CASHIER POV
-
-# 📌 Cashier Workflow
-
-```text
-Cashier Login
-      ↓
-Cashier Dashboard
-      ↓
-View Customer Order
-      ↓
-Verify Payment
-      ↓
-Transaction Success
-      ↓
-Receipt Displayed
-```
-
----
-
-## 1️⃣ Cashier Login Screen
-
-📌 Cashier login page.
-
-<img width="408" height="837" alt="image" src="https://github.com/user-attachments/assets/e992c580-a92f-4390-a9ba-9098bb9148f3" />
-
----
-
-## 2️⃣ Cashier Dashboard Screen
-
-📌 Main cashier dashboard.
-
-<img width="420" height="831" alt="image" src="https://github.com/user-attachments/assets/50754a88-aae4-4bf4-87bb-236c8b99e3d0" />
-
----
-<img width="414" height="829" alt="image" src="https://github.com/user-attachments/assets/74183ec0-5214-4189-a09a-c7647a210af9" />
-
----
-<img width="392" height="831" alt="image" src="https://github.com/user-attachments/assets/d0ece445-0ec1-45d8-96bb-ca0167fd83bb" />
-
----
-<img width="404" height="518" alt="image" src="https://github.com/user-attachments/assets/d678422f-dfe9-4b6e-8435-516b51f47ff4" />
-
----
-<img width="403" height="239" alt="image" src="https://github.com/user-attachments/assets/5a9b058b-abd0-416e-9249-db8a9c42bbfc" />
-
-
-## 3️⃣ Cashier Order Detail Screen
-
-📌 View customer order details.
-
-<img width="401" height="844" alt="image" src="https://github.com/user-attachments/assets/c54efb61-b64c-4948-9b85-c3d75fbb82ae" />
-
----
-<img width="411" height="835" alt="image" src="https://github.com/user-attachments/assets/39bc08ef-cbf2-4b9c-b7fb-bf1c899f2817" />
-
----
-<img width="407" height="839" alt="image" src="https://github.com/user-attachments/assets/f6ba752f-0113-4c21-88a0-b8be67fafe05" />
-
----
-<img width="402" height="840" alt="image" src="https://github.com/user-attachments/assets/d1d3dc58-6d9c-4f18-b5cd-b59df72d5a74" />
-
----
-<img width="413" height="839" alt="image" src="https://github.com/user-attachments/assets/bcc5faba-001f-4986-ac31-9ca35869372c" />
-
----
-
-
-## 4️⃣ Cashier Payment Verification Screen
-
-📌 Verify customer payment.
-
-<img width="413" height="844" alt="image" src="https://github.com/user-attachments/assets/eeab0cb3-ca0c-4c6a-8e4d-6a33ed5d597f" />
-
----
-
-## 5️⃣ Cashier Transaction Success Screen
-
-📌 Transaction successfully processed.
-
-<img width="413" height="844" alt="image" src="https://github.com/user-attachments/assets/eeab0cb3-ca0c-4c6a-8e4d-6a33ed5d597f" />
-
----
-
-## 6️⃣ Cashier Receipt Screen
-
-📌 Display transaction receipt.
-
-<img width="407" height="840" alt="image" src="https://github.com/user-attachments/assets/7ea6220e-1667-428e-8c93-fd21a72780d0" />
-
----
+## 👤 Customer Screens
+
+* Login Screen
+  <p align="center">
+  <img width="300" height="600" alt="image" src="https://github.com/user-attachments/assets/5f8b33e7-1754-43b9-8cf9-0d294194b948" />
+  </p>
+  
+  ---
+  
+* Register Screen
+  <p align="center">
+  <img width="300" height="600" alt="image" src="https://github.com/user-attachments/assets/128dc3af-83bb-455c-85ac-c998a2329b8f" />
+  </p>
+
+    ---
+  
+* Home Screen
+  <p align="center">
+  <img width="300" height="600" alt="image" src="https://github.com/user-attachments/assets/8d5b36ca-e740-428b-8300-1474a6e66efd" />
+  <img width="300" height="600" alt="image" src="https://github.com/user-attachments/assets/049b78fe-6418-4db6-8295-30b730557cbb" />
+  <img width="300" height="600" alt="image" src="https://github.com/user-attachments/assets/8a63fcd7-9603-4a72-8cb6-cc9498f7ec0e" />
+  <img width="300" height="600" alt="image" src="https://github.com/user-attachments/assets/941d7b27-89af-4ade-8a25-67ae0882bc93" />
+  <img width="300" height="600" alt="image" src="https://github.com/user-attachments/assets/c3c23cd3-c963-4b96-a47b-4b63f4922ad3" />
+  <img width="300" height="600" alt="image" src="https://github.com/user-attachments/assets/e907e818-9b62-4762-b179-dca5cca0f84c" />
+  </p>
+
+  ---
+  
+* Detail Screen
+  <p align="center">
+  <img width="300" height="600" alt="image" src="https://github.com/user-attachments/assets/bdca6dac-e6b3-4186-8c0d-941abbf1bddc" />
+  <img width="300" height="600" alt="image" src="https://github.com/user-attachments/assets/7bb432fe-b6da-4cac-9948-5daffc9f9b77" />
+  <img width="300" height="600" alt="image" src="https://github.com/user-attachments/assets/985ff7ad-dd2e-4437-b656-2dd664013ef6" />
+  <img width="300" height="600" alt="image" src="https://github.com/user-attachments/assets/ad46c3d7-0053-4dde-88f3-ecf9c30e30b3" />
+  <img width="300" height="600" alt="image" src="https://github.com/user-attachments/assets/ce562d7a-d2f1-4d4a-9e5c-b04eacac5e0c" />
+  </p>
+
+    ---
+   
+* Cart Screen
+  <p align="center">
+   <img width="300" height="600" alt="image" src="https://github.com/user-attachments/assets/0741bca3-3145-4cdc-8a21-48b8b305abdc" />
+   <img width="300" height="600" alt="image" src="https://github.com/user-attachments/assets/07938e57-1267-4847-a611-b60365615c9f" />
+   <img width="300" height="600" alt="image" src="https://github.com/user-attachments/assets/8a7a3484-b3f9-4f3e-8a6e-40ce288de5ef" />
+   <img width="300" height="600" alt="image" src="https://github.com/user-attachments/assets/24135bf2-b9ff-4f1f-b455-97abdd3d386a" />
+   <img width="300" height="600" alt="image" src="https://github.com/user-attachments/assets/2f14f9f7-7f3d-496e-9dce-63a4f1b92905" />
+  </p>
+
+  ---
+  
+* Payment Screen
+  <p align="center">
+  <img width="300" height="600" alt="image" src="https://github.com/user-attachments/assets/cdcde313-dda7-45bb-aa1a-3b4161ab24b5" />
+  <img width="300" height="600" alt="image" src="https://github.com/user-attachments/assets/d2147480-2446-4a5e-b5e7-3065e533f00b" />
+  </p>
+
+  ---
+  
+* Receipt Screen
+  <p align="center">
+  <img width="300" height="600" alt="image" src="https://github.com/user-attachments/assets/21eedf0b-3451-4625-a848-b16bb36ef974" />
+  </p>
+
+  ---
+  
+* History Screen
+  <p align="center">  
+  <img width="300" height="150" alt="image" src="https://github.com/user-attachments/assets/c5fbfd58-921a-49f9-a887-3b8620eb9516" />
+  </p>
+
+  ---
+
+## 🧑‍💼 Admin Screens
+
+* Admin Login
+  <p align="center"> 
+  <img width="300" height="600" alt="image" src="https://github.com/user-attachments/assets/6e4d8d62-6300-409a-9eac-62dd1abbda00" />
+  </p>
+
+  ---
+  
+* Admin Dashboard
+  <p align="center"> 
+  <img width="300" height="600" alt="image" src="https://github.com/user-attachments/assets/2f445bf0-78fa-4f25-ad30-abcea48c3318" />
+  </p>
+
+  ---
+  
+* Product Management
+  <p align="center"> 
+  <img width="300" height="600" alt="image" src="https://github.com/user-attachments/assets/a98999ee-c82a-444c-9125-9aa424c2c182" />
+  <img width="300" height="600" alt="image" src="https://github.com/user-attachments/assets/5462080e-499f-43d6-a05e-95b2e74b4bc5" />
+  <img width="300" height="600" alt="image" src="https://github.com/user-attachments/assets/99b9bb6b-af7c-44bf-9a84-acb2a95e4d6a" />
+  </p>
+
+   ---
+  
+* Transaction Monitoring
+  <p align="center"> 
+  <img width="300" height="600" alt="image" src="https://github.com/user-attachments/assets/fceee956-79ff-4929-b1ab-034811fa01f3" />
+  </p>
+
+  ---
+  
+## 💳 Cashier Screens
+
+* Cashier Login
+  <p align="center"> 
+  <img width="300" height="600" alt="image" src="https://github.com/user-attachments/assets/68f7e9d5-02ba-4724-818d-8b596bb164c1" />
+  </p>
+
+  --
+  
+* Cashier Dashboard
+  <p align="center"> 
+  <img width="300" height="600" alt="image" src="https://github.com/user-attachments/assets/c00b9e20-8609-44b3-924e-1d21be078c32" />
+  <img width="300" height="600" alt="image" src="https://github.com/user-attachments/assets/c91e8ec3-1385-43b0-b74f-14cba262cdac" />
+  </p>
+
+  ---
+  
+* Payment Verification
+  <p align="center"> 
+  <img width="300" height="600" alt="image" src="https://github.com/user-attachments/assets/70fca4db-4059-4659-87d8-c7d2f6eb5bd5" />
+  </p>
+
+  ---
+  
+* Receipt Validation
+  <p align="center"> 
+  <img width="300" height="600" alt="image" src="https://github.com/user-attachments/assets/8dc51d75-ae16-4339-a465-1fd7d3b405ac" />
+  </p>
+
+  ---
 
 # ⚙️ Installation Guide
 
-# 1️⃣ Clone Repository
+## 1. Clone Repository
 
 ```bash
-https://github.com/rismaramadhani403/ProjectLumera/edit/main/README.md
+git clone <repository-url>
 ```
 
----
-
-# 2️⃣ Open Android Studio
+## 2. Open Android Studio
 
 ```text
-File → Open
+File → Open Project
 ```
 
-Select LUMERA project folder.
+## 3. Sync Gradle
 
----
-
-# 3️⃣ Sync Gradle
-
-Wait until:
+Tunggu hingga proses:
 
 ```text
 Gradle Sync Finished
 ```
 
----
+## 4. Run Application
 
-# 4️⃣ Run Emulator / Android Device
+Gunakan:
 
-Use:
-- Android Emulator
-- Physical Android Device
+* Android Emulator
+* Physical Android Device
 
----
-
-# 5️⃣ Run Application
-
-Click:
+Kemudian klik:
 
 ```text
-▶ Run
+Run ▶
 ```
 
 ---
 
-# 🧪 System Testing
+# 🧪 Testing
 
-Testing performed on:
+Pengujian dilakukan pada fitur:
 
-- Login system
-- Navigation system
-- Cart system
-- Payment system
-- Receipt system
-- History system
-- CRUD menu
-- Session management
-
----
-
-# 📊 Project Results
-
-Successfully implemented:
-
-- Modern UI using Compose
-- Multi-role authentication
-- Cart management
-- Transaction system
-- Payment verification
-- Receipt generation
-- CRUD functionality
-- Session persistence
-- Navigation system
+* Authentication System
+* Navigation System
+* DataStore Session
+* Hilt Injection
+* Cart Management
+* Checkout Process
+* Payment System
+* Receipt System
+* Transaction History
+* Admin CRUD
+* Cashier Verification
 
 ---
 
-# 🔮 Future Development
+# 📊 Project Achievement
 
-Possible future improvements:
+✅ Jetpack Compose UI
 
-- Firebase Authentication
-- Cloud Database
-- REST API Integration
-- Push Notification
-- Midtrans Payment Gateway
-- AI Menu Recommendation
-- Real-time Tracking
-- Analytics Dashboard
-- Dark Mode
-- Multi-language Support
+✅ MVVM Architecture
+
+✅ Navigation Compose
+
+✅ DataStore Preferences
+
+✅ Hilt Dependency Injection
+
+✅ Session Management
+
+✅ Shopping Cart System
+
+✅ Payment System
+
+✅ Receipt System
+
+✅ Multi Role Authentication
+
+✅ CRUD Management
+
+---
+
+# 🚀 Future Development
+
+Beberapa pengembangan yang dapat dilakukan di masa mendatang:
+
+* Firebase Authentication
+* Cloud Database Integration
+* REST API Integration
+* Push Notification
+* Midtrans Payment Gateway
+* AI Recommendation System
+* Multi Language Support
+* Dark Mode Customization
+* Real-Time Order Tracking
 
 ---
 
 # 📚 Conclusion
 
-LUMERA successfully implements a modern Android coffee shop application using Kotlin and Jetpack Compose. The project applies various Android Development concepts such as MVVM Architecture, Navigation Compose, State Management, and DataStore.
+LUMERA berhasil dikembangkan sebagai aplikasi mobile coffee shop modern dengan memanfaatkan teknologi Android Development terkini seperti Jetpack Compose, MVVM Architecture, DataStore Preferences, dan Hilt Dependency Injection.
 
-The application provides a digital ordering experience for customers while helping admins and cashiers manage menus and transactions efficiently.
-
----
-
-# 👨‍💻 Developer
-
-1.	RISMA RAMADHANI			         (L0324030)
-2.	WIZAD AKMALIA ZULFAA       (L0324036)
-3.	ZEFANYA CHRISTIAN NATASHA		(L0324037)
+Implementasi Hilt pada Pertemuan 10 berhasil meningkatkan kualitas arsitektur aplikasi dengan menyediakan dependency secara otomatis, mengurangi boilerplate code, dan membuat project lebih modular, scalable, serta mudah dipelihara.
 
 ---
 
-# 📄 License
+# 👨‍💻 Developers
 
-This project was created for educational and Android Development learning purposes.
+1. Risma Ramadhani (L0324030)
+3. Wizad Akmalia Zulfaa (L0324036)
+4. Zefanya Christian Natasha (L0324037)
+
+---
