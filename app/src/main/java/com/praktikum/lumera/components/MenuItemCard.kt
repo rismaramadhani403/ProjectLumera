@@ -4,6 +4,7 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,8 +20,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -64,7 +63,7 @@ fun MenuItemCard(
     Card(
 
         modifier = Modifier
-            .width(230.dp)
+            .width(180.dp)
             .animateContentSize()
             .clickable {
 
@@ -102,7 +101,7 @@ fun MenuItemCard(
 
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(220.dp),
+                        .height(250.dp),
 
                     contentScale = ContentScale.Crop
                 )
@@ -114,7 +113,7 @@ fun MenuItemCard(
 
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(220.dp)
+                        .height(250.dp)
                         .background(
 
                             Color.Black.copy(
@@ -122,41 +121,28 @@ fun MenuItemCard(
                             )
                         )
                 )
-
-                // =========================
-                // BEST SELLER BADGE
-                // =========================
                 if (menu.isBestSeller) {
 
                     Box(
-
                         modifier = Modifier
+                            .align(Alignment.TopStart)
                             .padding(14.dp)
-                            .clip(
-                                RoundedCornerShape(50.dp)
-                            )
-                            .background(
-                                Color(0xFFD99A3E)
-                            )
+                            .clip(RoundedCornerShape(50.dp))
+                            .background(Color(0xFFD99A3E))
                             .padding(
                                 horizontal = 14.dp,
                                 vertical = 6.dp
                             )
-                    ) {
+                    ){
 
                         Text(
-
                             text = "Best Seller",
-
                             color = Color.White,
-
                             fontSize = 12.sp,
-
                             fontWeight = FontWeight.Bold
                         )
                     }
                 }
-
                 // =========================
                 // FAVORITE BUTTON
                 // =========================
@@ -216,40 +202,52 @@ fun MenuItemCard(
                 // MENU NAME
                 // =========================
                 Text(
-
                     text = menu.name,
-
                     color = Color.White,
-
                     fontWeight = FontWeight.Bold,
-
-                    fontSize = 20.sp,
-
+                    fontSize = 17.sp,
                     maxLines = 2
                 )
 
                 Spacer(
-                    modifier = Modifier.height(8.dp)
+                    modifier = Modifier.height(6.dp)
+                )
+
+                // =========================
+                // CATEGORY BADGE
+                // =========================
+                Box(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(50.dp))
+                        .background(Color(0xFFD99A3E))
+                        .padding(
+                            horizontal = 10.dp,
+                            vertical = 4.dp
+                        )
+                ) {
+                    Text(
+                        text = menu.category,
+                        color = Color.White,
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+
+                Spacer(
+                    modifier = Modifier.height(10.dp)
                 )
 
                 // =========================
                 // RATING
                 // =========================
                 Row(
-
-                    verticalAlignment =
-                        Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
 
                     Icon(
-
-                        imageVector =
-                            Icons.Default.Star,
-
+                        imageVector = Icons.Default.Star,
                         contentDescription = null,
-
                         tint = Color(0xFFFFC107),
-
                         modifier = Modifier.size(18.dp)
                     )
 
@@ -258,94 +256,55 @@ fun MenuItemCard(
                     )
 
                     Text(
-
                         text = menu.rating.toString(),
-
                         color = Color.White,
-
                         fontWeight = FontWeight.SemiBold
-                    )
-
-                    Spacer(
-                        modifier = Modifier.width(8.dp)
-                    )
-
-                    Text(
-
-                        text =
-                            "(${menu.reviews} Reviews)",
-
-                        color = Color.LightGray,
-
-                        fontSize = 13.sp
                     )
                 }
 
                 Spacer(
-                    modifier = Modifier.height(12.dp)
+                    modifier = Modifier.height(14.dp)
                 )
 
                 // =========================
-                // PRICE
+                // PRICE + ADD BUTTON
                 // =========================
-                Text(
-
-                    text = formatRupiah(menu.price),
-
-                    color = Color(0xFFD99A3E),
-
-                    fontWeight = FontWeight.Bold,
-
-                    fontSize = 20.sp
-                )
-
-                Spacer(
-                    modifier = Modifier.height(20.dp)
-                )
-
-                // =========================
-                // ADD BUTTON
-                // =========================
-                Button(
-
-                    onClick = {
-
-                        cartViewModel.addToCart(
-
-                            menu,
-
-                            1
-                        )
-                    },
-
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(54.dp),
-
-                    shape = RoundedCornerShape(20.dp),
-
-                    colors = ButtonDefaults.buttonColors(
-
-                        containerColor =
-                            Color(0xFFD99A3E)
-                    )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
 
                     Text(
-
-                        text = "Add to Cart",
-
-                        color = Color.White,
-
+                        text = formatRupiah(menu.price),
+                        color = Color(0xFFD99A3E),
                         fontWeight = FontWeight.Bold,
-
-                        fontSize = 16.sp
+                        fontSize = 18.sp
                     )
-                }
 
-                Spacer(
-                    modifier = Modifier.height(6.dp)
-                )
+                    Box(
+                        modifier = Modifier
+                            .size(42.dp)
+                            .clip(CircleShape)
+                            .background(Color(0xFFD99A3E))
+                            .clickable {
+
+                                cartViewModel.addToCart(
+                                    menu,
+                                    1
+                                )
+                            },
+                        contentAlignment = Alignment.Center
+                    ) {
+
+                        Text(
+                            text = "+",
+                            color = Color.White,
+                            fontSize = 24.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                }
             }
         }
     }

@@ -233,8 +233,26 @@ fun DetailScreen(
             )
 
             Spacer(
-                modifier = Modifier.height(10.dp)
+                modifier = Modifier.height(8.dp)
             )
+
+            Box(
+                modifier = Modifier
+                    .clip(RoundedCornerShape(50.dp))
+                    .background(Color(0xFFFFE5C2))
+                    .padding(
+                        horizontal = 14.dp,
+                        vertical = 6.dp
+                    )
+            ) {
+
+                Text(
+                    text = menu.category,
+                    color = Color(0xFFD99A3E),
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 12.sp
+                )
+            }
 
             // =========================
             // RATING
@@ -284,6 +302,23 @@ fun DetailScreen(
                 modifier = Modifier.height(20.dp)
             )
 
+            Row {
+
+                Text(
+                    text = "⏱ 10-15 Min",
+                    color = Color.Gray
+                )
+
+                Spacer(
+                    modifier = Modifier.width(16.dp)
+                )
+
+                Text(
+                    text = "🔥 Fresh Brew",
+                    color = Color.Gray
+                )
+            }
+
             // =========================
             // PRICE
             // =========================
@@ -312,7 +347,7 @@ fun DetailScreen(
                 // =========================
                 Text(
 
-                    text = "Size",
+                    text = "☕ Choose Size",
 
                     fontWeight = FontWeight.Bold,
 
@@ -379,7 +414,7 @@ fun DetailScreen(
                 // =========================
                 Text(
 
-                    text = "Ice",
+                    text = "🧊 Ice Level",
 
                     fontWeight = FontWeight.Bold,
 
@@ -431,7 +466,7 @@ fun DetailScreen(
                 // =========================
                 Text(
 
-                    text = "Sugar",
+                    text = "🍬 Sugar Level",
 
                     fontWeight = FontWeight.Bold,
 
@@ -504,7 +539,7 @@ fun DetailScreen(
                 // =========================
                 Text(
 
-                    text = "Extra",
+                    text = "⚡ Extra Topping",
 
                     fontWeight = FontWeight.Bold,
 
@@ -561,7 +596,7 @@ fun DetailScreen(
             // =========================
             Text(
 
-                text = "Notes",
+                text = "📝 Special Notes",
 
                 fontWeight = FontWeight.Bold,
 
@@ -688,7 +723,7 @@ fun DetailScreen(
                     Text(
 
                         text =
-                            "Tambah • ${formatRupiah(totalPrice)}",
+                            "Add To Cart • ${formatRupiah(totalPrice)}",
 
                         color = Color.White,
 

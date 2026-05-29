@@ -1,9 +1,10 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-
-    // Jetpack Compose
     alias(libs.plugins.kotlin.compose)
+
+    id("org.jetbrains.kotlin.kapt")
+    alias(libs.plugins.hilt)
 }
 
 android {
@@ -98,4 +99,11 @@ dependencies {
     implementation(
         "androidx.datastore:datastore-preferences:1.1.1"
     )
+
+    // Hilt
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
+
+    implementation(libs.androidx.hilt.navigation.compose)
 }
+

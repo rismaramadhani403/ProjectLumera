@@ -13,49 +13,37 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-
 import androidx.compose.foundation.verticalScroll
-
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.automirrored.filled.List
-
-import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Person
-
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-
 import androidx.compose.ui.draw.clip
-
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-
 import androidx.compose.ui.text.font.FontWeight
-
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
 import com.praktikum.lumera.datastore.UserPreferences
 
 @Composable
@@ -183,17 +171,21 @@ fun ProfileScreen(
         // =========================
         // PROFILE PHOTO
         // =========================
-        Icon(
+        Box(
+            modifier = Modifier
+                .size(130.dp)
+                .clip(CircleShape)
+                .background(Color(0xFFD99A3E)),
+            contentAlignment = Alignment.Center
+        ) {
 
-            imageVector =
-                Icons.Default.AccountCircle,
-
-            contentDescription = null,
-
-            tint = Color.White,
-
-            modifier = Modifier.size(130.dp)
-        )
+            Text(
+                text = user?.name?.firstOrNull()?.toString() ?: "G",
+                color = Color.White,
+                fontSize = 48.sp,
+                fontWeight = FontWeight.Bold
+            )
+        }
 
         Spacer(
             modifier = Modifier.height(18.dp)
@@ -340,13 +332,27 @@ fun ProfileScreen(
                 }
             }
 
-            // =========================
-            // STATISTICS
-            // =========================
             Spacer(
                 modifier = Modifier.height(28.dp)
             )
 
+            // =========================
+            // MY ACTIVITY
+            // =========================
+            Text(
+                text = "My Activity",
+                color = Color.White,
+                fontWeight = FontWeight.Bold,
+                fontSize = 20.sp
+            )
+
+            Spacer(
+                modifier = Modifier.height(16.dp)
+            )
+
+            // =========================
+            // STATISTICS
+            // =========================
             Row(
 
                 modifier = Modifier.fillMaxWidth(),
@@ -494,10 +500,22 @@ fun ProfileScreen(
         }
 
         Spacer(
+            modifier = Modifier.height(20.dp)
+        )
+
+        Text(
+            text = "LUMERA Coffee App v1.0.0",
+            color = Color.LightGray,
+            fontSize = 12.sp
+        )
+
+        Spacer(
             modifier = Modifier.height(30.dp)
         )
-    }
-}
+
+    } // Column
+
+} // ProfileScreen
 
 @Composable
 fun ProfileItem(
@@ -536,32 +554,52 @@ fun ProfileItem(
                 .fillMaxWidth()
                 .padding(20.dp),
 
+            horizontalArrangement =
+                Arrangement.SpaceBetween,
+
             verticalAlignment =
                 Alignment.CenterVertically
         ) {
 
+            Row(
+
+                verticalAlignment =
+                    Alignment.CenterVertically
+            ) {
+
+                Icon(
+
+                    imageVector = icon,
+
+                    contentDescription = null,
+
+                    tint = Color(0xFFD99A3E)
+                )
+
+                Spacer(
+                    modifier = Modifier.width(16.dp)
+                )
+
+                Text(
+
+                    text = title,
+
+                    color = Color.White,
+
+                    fontWeight = FontWeight.Bold,
+
+                    fontSize = 16.sp
+                )
+            }
+
             Icon(
 
-                imageVector = icon,
+                imageVector =
+                    Icons.Default.ArrowForward,
 
                 contentDescription = null,
 
-                tint = Color(0xFFD99A3E)
-            )
-
-            Spacer(
-                modifier = Modifier.width(16.dp)
-            )
-
-            Text(
-
-                text = title,
-
-                color = Color.White,
-
-                fontWeight = FontWeight.Bold,
-
-                fontSize = 16.sp
+                tint = Color.Gray
             )
         }
     }
@@ -619,8 +657,11 @@ fun StatisticItem(
 
                 text = title,
 
-                color = Color.LightGray
+                color = Color.LightGray,
+
+                fontSize = 12.sp
             )
+
         }
     }
 }

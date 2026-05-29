@@ -48,12 +48,12 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.praktikum.lumera.components.MenuItemCard
 import com.praktikum.lumera.datastore.UserPreferences
 import com.praktikum.lumera.model.CartItem
 import com.praktikum.lumera.model.Menu
 import com.praktikum.lumera.ui.theme.Poppins
 import com.praktikum.lumera.viewmodel.CartViewModel
+import com.praktikum.lumera.components.MenuItemCard
 
 @Composable
 fun HomeScreen(
@@ -469,6 +469,53 @@ fun HomeScreen(
             modifier = Modifier.height(24.dp)
         )
 
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(170.dp)
+                .clip(RoundedCornerShape(28.dp))
+                .background(
+                    Brush.horizontalGradient(
+                        colors = listOf(
+                            Color(0xFFD99A3E),
+                            Color(0xFFB8741A)
+                        )
+                    )
+                )
+        ) {
+
+            Column(
+                modifier = Modifier.padding(24.dp)
+            ) {
+
+                Text(
+                    text = "SPECIAL OFFER",
+                    color = Color.White,
+                    fontWeight = FontWeight.Bold
+                )
+
+                Spacer(
+                    modifier = Modifier.height(10.dp)
+                )
+
+                Text(
+                    text = "BUY 1 GET 1",
+                    color = Color.White,
+                    fontSize = 30.sp,
+                    fontWeight = FontWeight.ExtraBold
+                )
+
+                Text(
+                    text = "For All Coffee Menu",
+                    color = Color.White.copy(alpha = 0.9f)
+                )
+            }
+        }
+
+        Spacer(
+            modifier = Modifier.height(24.dp)
+        )
+
         // =========================
         // CATEGORY
         // =========================
@@ -573,15 +620,63 @@ fun HomeScreen(
         )
 
         // =========================
-        // PREMIUM MENU LIST
+        // FEATURED MENU
         // =========================
-        LazyRow(
+        Text(
+            text = "Popular Menu",
+            color = Color.White,
+            fontWeight = FontWeight.Bold,
+            fontSize = 22.sp
+        )
 
+        Spacer(
+            modifier = Modifier.height(16.dp)
+        )
+
+        LazyRow(
             horizontalArrangement =
                 Arrangement.spacedBy(18.dp)
         ) {
 
-            items(filteredMenus) { menu ->
+            items(filteredMenus.take(5)) { menu ->
+
+                MenuItemCard(
+
+                    menu = menu,
+
+                    cartViewModel =
+                        cartViewModel,
+
+                    onSelectMenu =
+                        onSelectMenu,
+
+                    favoriteMenus =
+                        favoriteMenus
+                )
+            }
+        }
+
+        Spacer(
+            modifier = Modifier.height(28.dp)
+        )
+
+        Text(
+            text = "Recommended For You",
+            color = Color.White,
+            fontWeight = FontWeight.Bold,
+            fontSize = 22.sp
+        )
+
+        Spacer(
+            modifier = Modifier.height(16.dp)
+        )
+
+        LazyRow(
+            horizontalArrangement =
+                Arrangement.spacedBy(18.dp)
+        ) {
+
+            items(filteredMenus.reversed().take(5)) { menu ->
 
                 MenuItemCard(
 
@@ -603,9 +698,6 @@ fun HomeScreen(
             modifier = Modifier.height(40.dp)
         )
 
-        // =========================
-        // BOTTOM NAVIGATION
-        // =========================
         // =========================
         // BOTTOM NAVIGATION
         // =========================

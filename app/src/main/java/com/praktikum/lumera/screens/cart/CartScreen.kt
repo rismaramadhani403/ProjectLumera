@@ -1,7 +1,10 @@
 package com.praktikum.lumera.screens.cart
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -9,19 +12,21 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedButton
@@ -35,13 +40,18 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.praktikum.lumera.model.CartItem
 import com.praktikum.lumera.utils.formatRupiah
 import com.praktikum.lumera.viewmodel.CartViewModel
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 
 @Composable
 fun CartScreen(
@@ -403,14 +413,21 @@ fun CartScreen(
                 modifier = Modifier.width(8.dp)
             )
 
-            Text(
+            Column {
 
-                text = "Cart",
+                Text(
+                    text = "My Cart",
+                    fontSize = 28.sp,
+                    fontWeight = FontWeight.Bold
+                )
 
-                fontSize = 26.sp,
+                Text(
+                    text = "${cart.size} items selected",
+                    color = Color.Gray,
+                    fontSize = 13.sp
+                )
+            }
 
-                fontWeight = FontWeight.Bold
-            )
         }
 
         Spacer(
@@ -420,39 +437,72 @@ fun CartScreen(
         // =========================
         // CART LIST
         // =========================
-        LazyColumn(
+        if (cart.isEmpty()) {
 
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth(),
+            Column(
 
-            verticalArrangement =
-                Arrangement.spacedBy(14.dp)
-        ) {
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth(),
 
-            items(cart) { item ->
+                horizontalAlignment =
+                    Alignment.CenterHorizontally,
 
-                CartItemCard(
+                verticalArrangement =
+                    Arrangement.Center
+            ) {
 
-                    item = item,
-
-                    cartViewModel =
-                        cartViewModel
+                Text(
+                    text = "☕",
+                    fontSize = 60.sp
                 )
-            }
-
-            item {
 
                 Spacer(
-                    modifier = Modifier.height(10.dp)
+                    modifier = Modifier.height(12.dp)
+                )
+
+                Text(
+                    text = "Your cart is empty",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp
+                )
+
+                Text(
+                    text = "Add your favorite coffee first",
+                    color = Color.Gray
                 )
             }
+
+        } else {
+
+            LazyColumn(
+
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth(),
+
+                verticalArrangement =
+                    Arrangement.spacedBy(14.dp)
+            ) {
+
+                items(cart) { item ->
+
+                    CartItemCard(
+
+                        item = item,
+
+                        cartViewModel = cartViewModel
+                    )
+                }
+
+                item {
+
+                    Spacer(
+                        modifier = Modifier.height(10.dp)
+                    )
+                }
+            }
         }
-
-        Spacer(
-            modifier = Modifier.height(20.dp)
-        )
-
         // =========================
         // ORDER TYPE
         // =========================
@@ -504,7 +554,7 @@ fun CartScreen(
             ) {
 
                 Text(
-                    text = "Dine-in / Pickup"
+                    text = "☕ Pickup"
                 )
             }
 
@@ -535,7 +585,7 @@ fun CartScreen(
             ) {
 
                 Text(
-                    text = "Delivery"
+                    text = "🚚 Delivery"
                 )
             }
         }
@@ -545,73 +595,102 @@ fun CartScreen(
         )
 
         // =========================
-        // PAYMENT + PROMO
+        // PAYMENT METHOD
         // =========================
-        Row(
+        Card(
 
-            modifier = Modifier.fillMaxWidth(),
-
-            horizontalArrangement =
-                Arrangement.spacedBy(12.dp)
-        ) {
-
-            Button(
-
-                onClick = {
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable {
 
                     showPaymentDialog = true
                 },
 
+            shape = RoundedCornerShape(18.dp),
+
+            colors = CardDefaults.cardColors(
+
+                containerColor = Color.White
+            )
+        ) {
+
+            Row(
+
                 modifier = Modifier
-                    .weight(1f)
-                    .height(52.dp),
+                    .fillMaxWidth()
+                    .padding(18.dp),
 
-                shape = RoundedCornerShape(18.dp),
+                horizontalArrangement =
+                    Arrangement.SpaceBetween,
 
-                colors = ButtonDefaults.buttonColors(
-
-                    containerColor =
-                        Color(0xFFE9D6B8)
-                )
+                verticalAlignment =
+                    Alignment.CenterVertically
             ) {
 
                 Text(
 
-                    text = selectedPayment,
+                    text =
+                        "💳 Payment Method\n$selectedPayment",
 
-                    color = Color(0xFF7A4E1D),
+                    fontWeight =
+                        FontWeight.SemiBold
+                )
 
-                    fontWeight = FontWeight.Bold
+                Icon(
+                    imageVector = Icons.Default.ArrowForward,
+                    contentDescription = null
                 )
             }
+        }
 
-            Button(
+        Spacer(
+            modifier = Modifier.height(12.dp)
+        )
 
-                onClick = {
+        // =========================
+        // PROMO
+        // =========================
+        Card(
+
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable {
 
                     showPromoDialog = true
                 },
 
+            shape = RoundedCornerShape(18.dp),
+
+            colors = CardDefaults.cardColors(
+
+                containerColor = Color.White
+            )
+        ) {
+
+            Row(
+
                 modifier = Modifier
-                    .weight(1f)
-                    .height(52.dp),
+                    .fillMaxWidth()
+                    .padding(18.dp),
 
-                shape = RoundedCornerShape(18.dp),
+                horizontalArrangement =
+                    Arrangement.SpaceBetween,
 
-                colors = ButtonDefaults.buttonColors(
-
-                    containerColor =
-                        Color(0xFFE9D6B8)
-                )
+                verticalAlignment =
+                    Alignment.CenterVertically
             ) {
 
                 Text(
 
-                    text = selectedPromo,
+                    text =
+                        "🎁 Promo\n$selectedPromo",
 
-                    color = Color(0xFF7A4E1D),
+                    fontWeight =
+                        FontWeight.SemiBold
+                )
 
-                    fontWeight = FontWeight.Bold
+                Text(
+                    text = ">"
                 )
             }
         }
@@ -621,63 +700,92 @@ fun CartScreen(
         )
 
         // =========================
-        // PRICE DETAIL
+        // PAYMENT SUMMARY CARD
         // =========================
-        PriceRow(
-            "Subtotal",
-            formatRupiah(subtotal)
-        )
-
-        PriceRow(
-            "Delivery Fee",
-            formatRupiah(deliveryFee)
-        )
-
-        PriceRow(
-            "Discount",
-            "- ${formatRupiah(discount)}"
-        )
-
-        Spacer(
-            modifier = Modifier.height(8.dp)
-        )
-
-        Divider()
-
-        Spacer(
-            modifier = Modifier.height(8.dp)
-        )
-
-        // =========================
-        // TOTAL
-        // =========================
-        Row(
+        Card(
 
             modifier = Modifier.fillMaxWidth(),
 
-            horizontalArrangement =
-                Arrangement.SpaceBetween
+            shape = RoundedCornerShape(22.dp),
+
+            colors = CardDefaults.cardColors(
+
+                containerColor = Color.White
+            )
         ) {
 
-            Text(
+            Column(
 
-                text = "Total",
+                modifier = Modifier.padding(18.dp)
+            ) {
 
-                fontWeight = FontWeight.Bold,
+                Text(
 
-                fontSize = 22.sp
-            )
+                    text = "Payment Summary",
 
-            Text(
+                    fontWeight = FontWeight.Bold,
 
-                text = formatRupiah(total),
+                    fontSize = 18.sp
+                )
 
-                fontWeight = FontWeight.Bold,
+                Spacer(
+                    modifier = Modifier.height(14.dp)
+                )
 
-                fontSize = 22.sp,
+                PriceRow(
+                    "Subtotal",
+                    formatRupiah(subtotal)
+                )
 
-                color = Color(0xFFC68642)
-            )
+                PriceRow(
+                    "Delivery Fee",
+                    formatRupiah(deliveryFee)
+                )
+
+                PriceRow(
+                    "Discount",
+                    "- ${formatRupiah(discount)}"
+                )
+
+                Spacer(
+                    modifier = Modifier.height(8.dp)
+                )
+
+                HorizontalDivider()
+
+                Spacer(
+                    modifier = Modifier.height(8.dp)
+                )
+
+                Row(
+
+                    modifier = Modifier.fillMaxWidth(),
+
+                    horizontalArrangement =
+                        Arrangement.SpaceBetween
+                ) {
+
+                    Text(
+
+                        text = "Total Payment",
+
+                        fontWeight = FontWeight.Bold,
+
+                        fontSize = 20.sp
+                    )
+
+                    Text(
+
+                        text = formatRupiah(total),
+
+                        fontWeight = FontWeight.Bold,
+
+                        fontSize = 20.sp,
+
+                        color = Color(0xFFC68642)
+                    )
+                }
+            }
         }
 
         Spacer(
@@ -708,11 +816,11 @@ fun CartScreen(
                 containerColor =
                     Color(0xFFC68642)
             )
-        ){
+        ) {
 
             Text(
 
-                text = "Checkout",
+                text = "Place Order • ${formatRupiah(total)}",
 
                 color = Color.White,
 
@@ -848,7 +956,6 @@ fun CartItemCard(
     ) {
 
         Row(
-
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(18.dp),
@@ -859,6 +966,30 @@ fun CartItemCard(
             verticalAlignment =
                 Alignment.Top
         ) {
+
+            // =========================
+            // MENU IMAGE
+            // =========================
+            Image(
+
+                painter = painterResource(
+                    id = item.menu.image
+                ),
+
+                contentDescription = null,
+
+                modifier = Modifier
+                    .size(90.dp)
+                    .clip(
+                        RoundedCornerShape(18.dp)
+                    ),
+
+                contentScale = ContentScale.Crop
+            )
+
+            Spacer(
+                modifier = Modifier.width(14.dp)
+            )
 
             // =========================
             // LEFT CONTENT
@@ -955,60 +1086,62 @@ fun CartItemCard(
                 // QUANTITY
                 // =========================
                 Row(
-
-                    verticalAlignment =
-                        Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
 
                     // MINUS
-                    IconButton(
+                    Box(
+                        modifier = Modifier
+                            .size(34.dp)
+                            .clip(CircleShape)
+                            .background(Color(0xFFE9D6B8))
+                            .clickable {
+                                cartViewModel.decreaseQuantity(item)
+                            },
 
-                        onClick = {
-
-                            cartViewModel
-                                .decreaseQuantity(
-                                    item
-                                )
-                        }
+                        contentAlignment = Alignment.Center
                     ) {
 
                         Text(
-
                             text = "-",
-
-                            fontSize = 22.sp
+                            color = Color(0xFF7A4E1D),
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 20.sp
                         )
                     }
 
+                    Spacer(
+                        modifier = Modifier.width(10.dp)
+                    )
+
                     // QUANTITY TEXT
                     Text(
+                        text = item.quantity.toString(),
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold
+                    )
 
-                        text =
-                            item.quantity.toString(),
-
-                        fontWeight =
-                            FontWeight.Bold,
-
-                        fontSize = 18.sp
+                    Spacer(
+                        modifier = Modifier.width(10.dp)
                     )
 
                     // PLUS
-                    IconButton(
+                    Box(
+                        modifier = Modifier
+                            .size(34.dp)
+                            .clip(CircleShape)
+                            .background(Color(0xFFC68642))
+                            .clickable {
+                                cartViewModel.increaseQuantity(item)
+                            },
 
-                        onClick = {
-
-                            cartViewModel
-                                .increaseQuantity(
-                                    item
-                                )
-                        }
+                        contentAlignment = Alignment.Center
                     ) {
 
-                        Text(
-
-                            text = "+",
-
-                            fontSize = 22.sp
+                        Icon(
+                            imageVector = Icons.Default.Add,
+                            contentDescription = null,
+                            tint = Color.White
                         )
                     }
                 }
@@ -1041,20 +1174,14 @@ fun CartItemCard(
             // DELETE BUTTON
             // =========================
             IconButton(
-
                 onClick = {
-
                     showDeleteDialog = true
                 }
             ) {
 
                 Icon(
-
-                    imageVector =
-                        Icons.Default.Delete,
-
+                    imageVector = Icons.Default.Delete,
                     contentDescription = null,
-
                     tint = Color.Red
                 )
             }

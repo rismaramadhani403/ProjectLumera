@@ -1,22 +1,25 @@
 package com.praktikum.lumera.viewmodel
 
 import androidx.compose.runtime.mutableStateListOf
-
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 
 import com.praktikum.lumera.datastore.UserPreferences
-
 import com.praktikum.lumera.model.CartItem
 import com.praktikum.lumera.model.Menu
 import com.praktikum.lumera.model.Transaction
 
+import dagger.hilt.android.lifecycle.HiltViewModel
+
 import kotlinx.coroutines.launch
 
-class CartViewModel(
+import javax.inject.Inject
 
-    private val userPreferences:
-    UserPreferences
+@HiltViewModel
+class CartViewModel @Inject constructor(
+
+    private val userPreferences: UserPreferences
+
 ) : ViewModel() {
 
     // =========================
