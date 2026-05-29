@@ -1,8 +1,8 @@
 # ☕ LUMERA - Coffee Shop Mobile App
 
 <p align="center">
-  <img width="200" height="500" alt="image" src="https://github.com/user-attachments/assets/76c7c3d6-bbc2-4fc2-815a-71f1001f7c65" />
-  <img width="200" height="500" alt="image" src="https://github.com/user-attachments/assets/6e617279-245e-4b88-8bab-34b7e9371fcf" />
+  <img width="300" height="500" alt="image" src="https://github.com/user-attachments/assets/76c7c3d6-bbc2-4fc2-815a-71f1001f7c65" />
+  <img width="300" height="500" alt="image" src="https://github.com/user-attachments/assets/6e617279-245e-4b88-8bab-34b7e9371fcf" />
 </p>
 
 <h3 align="center">
