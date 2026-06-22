@@ -214,6 +214,8 @@ fun AppNavigation(
                                         inclusive = true
                                     }
                                 }
+                            } else {
+                                android.widget.Toast.makeText(context, "Password Admin salah!", android.widget.Toast.LENGTH_SHORT).show()
                             }
                         }
 
@@ -239,14 +241,27 @@ fun AppNavigation(
                                         inclusive = true
                                     }
                                 }
+                            } else {
+                                android.widget.Toast.makeText(context, "Password Kasir salah!", android.widget.Toast.LENGTH_SHORT).show()
                             }
                         }
 
                         "Customer" -> {
 
+                            val inputUsername = username.trim()
+                            val inputPassword = password.trim()
+                            val savedName = savedUser.name.trim()
+                            val savedEmail = savedUser.email.trim()
+                            val savedPass = savedUser.password.trim()
+
+                            val isUsernameMatch = inputUsername.equals(savedName, ignoreCase = true)
+                            val isEmailMatch = inputUsername.equals(savedEmail, ignoreCase = true)
+                            val isPasswordMatch = inputPassword == savedPass
+
                             if (
-                                username == savedUser.name &&
-                                password == savedUser.password
+                                (isUsernameMatch || isEmailMatch) &&
+                                isPasswordMatch && 
+                                (savedName.isNotEmpty() || savedEmail.isNotEmpty())
                             ) {
 
                                 currentUser = savedUser
@@ -260,6 +275,8 @@ fun AppNavigation(
                                         inclusive = true
                                     }
                                 }
+                            } else {
+                                android.widget.Toast.makeText(context, "Username/Email atau Password salah!", android.widget.Toast.LENGTH_SHORT).show()
                             }
                         }
                     }
