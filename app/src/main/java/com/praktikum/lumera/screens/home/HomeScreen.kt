@@ -525,7 +525,7 @@ fun HomeScreen(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(180.dp)
+                    .height(200.dp)
                     .clip(RoundedCornerShape(28.dp))
             ) {
 
@@ -537,78 +537,6 @@ fun HomeScreen(
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop
                 )
-
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(
-                            Color.Black.copy(alpha = 0.45f)
-                        )
-                )
-
-                Column(
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .padding(24.dp),
-                    verticalArrangement = Arrangement.Center
-                ) {
-
-                    Text(
-                        text = "Weekend Special",
-                        color = Color(0xFFD99A3E),
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.SemiBold
-                    )
-
-                    Spacer(
-                        modifier = Modifier.height(8.dp)
-                    )
-
-                    Text(
-                        text = "Premium Coffee\nExperience",
-                        color = Color.White,
-                        fontSize = 26.sp,
-                        fontWeight = FontWeight.Bold,
-                        fontFamily = Playfair
-                    )
-
-                    Spacer(
-                        modifier = Modifier.height(8.dp)
-                    )
-
-                    Text(
-                        text = "Enjoy 20% Off",
-
-                        color = Color.White.copy(alpha = 0.85f),
-
-                        fontSize = 14.sp
-                    )
-
-                    Spacer(
-                        modifier = Modifier.height(12.dp)
-                    )
-
-                    Button(
-
-                        onClick = {
-                            selectedCategory = "Coffee"
-                        },
-
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFFD99A3E)
-                        ),
-
-                        shape = RoundedCornerShape(50.dp)
-
-                    ) {
-
-                        Text(
-                            text = "Order Now",
-                            color = Color.Black,
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
-                }
             }
 
             Spacer(
