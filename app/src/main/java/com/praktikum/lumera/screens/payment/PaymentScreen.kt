@@ -37,11 +37,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.praktikum.lumera.R
 import com.praktikum.lumera.data.SessionManager
 import com.praktikum.lumera.ui.theme.CreamBackground
-import com.praktikum.lumera.ui.theme.LightGrayText
 import com.praktikum.lumera.ui.theme.SoftBrownText
 import com.praktikum.lumera.ui.theme.SoftCaramel
 import com.praktikum.lumera.ui.theme.WarmWhite
@@ -52,6 +53,8 @@ import java.util.Locale
 fun PaymentScreen(
 
     total: Int,
+
+    customerName: String,
 
     selectedPaymentFromCart: String,
 
@@ -70,24 +73,12 @@ fun PaymentScreen(
         mutableStateOf(selectedPaymentFromCart)
     }
 
-    var customerName by remember {
+    val currentUser = SessionManager.currentUser.value
 
-        mutableStateOf(
+    var orderFor by remember {
 
-            if (
-                SessionManager.currentUser.value?.role
-                == "Customer"
-            ) {
-
-                SessionManager.currentUser.value?.name ?: ""
-
-            } else {
-
-                ""
-            }
-        )
+        mutableStateOf(customerName)
     }
-
     Column(
 
         modifier = Modifier
@@ -146,77 +137,58 @@ fun PaymentScreen(
 
             modifier = Modifier.fillMaxWidth(),
 
-            shape = RoundedCornerShape(24.dp),
+            shape = RoundedCornerShape(20.dp)
 
-            colors = CardDefaults.cardColors(
-
-                containerColor =
-                    Color(0xFFE8D2B3)
-            )
         ) {
 
             Column(
 
-                modifier = Modifier.padding(20.dp)
+                modifier = Modifier.padding(18.dp)
+
             ) {
 
                 Text(
-
-                    text = "Total Pembayaran",
-
-                    color = LightGrayText
+                    text = "Order For",
+                    color = Color.Gray
                 )
 
-                Spacer(
-                    modifier = Modifier.height(8.dp)
-                )
+                if (currentUser?.role == "Customer") {
 
-                Text(
+                    Text(
 
-                    text =
-                        "Rp ${
-                            formatRupiah.format(total)
-                        }",
+                        text = orderFor,
 
-                    style =
-                        MaterialTheme.typography
-                            .headlineMedium,
+                        fontWeight = FontWeight.Bold,
 
-                    color = SoftCaramel
-                )
+                        fontSize = 18.sp
+                    )
+
+                } else {
+
+                    OutlinedTextField(
+
+                        value = orderFor,
+
+                        onValueChange = {
+
+                            orderFor = it
+                        },
+
+                        modifier = Modifier.fillMaxWidth(),
+
+                        placeholder = {
+
+                            Text("Masukkan nama customer")
+                        },
+
+                        singleLine = true
+                    )
+                }
             }
         }
 
         Spacer(
             modifier = Modifier.height(28.dp)
-        )
-
-        // =========================
-        // CUSTOMER NAME
-        // =========================
-        OutlinedTextField(
-
-            value = customerName,
-
-            onValueChange = {
-
-                customerName = it
-            },
-
-            label = {
-
-                Text("Nama Customer")
-            },
-
-            modifier = Modifier.fillMaxWidth(),
-
-            shape = RoundedCornerShape(18.dp),
-
-            singleLine = true
-        )
-
-        Spacer(
-            modifier = Modifier.height(24.dp)
         )
 
         // =========================
@@ -371,7 +343,7 @@ fun PaymentScreen(
 
                     selectedPayment,
 
-                    customerName
+                    orderFor
                 )
             },
 
@@ -387,19 +359,49 @@ fun PaymentScreen(
             )
         ) {
 
-            Text(
+            Row(
 
-                text =
-                    "Bayar dengan $selectedPayment",
+                modifier = Modifier.fillMaxWidth(),
 
-                color = WarmWhite
-            )
+                horizontalArrangement =
+                    Arrangement.SpaceBetween,
+
+                verticalAlignment =
+                    Alignment.CenterVertically
+            ) {
+
+                Column {
+
+                    Text(
+                        text = "Total",
+                        color = Color.White,
+                        fontSize = 12.sp
+                    )
+
+                    Text(
+                        text = "Rp ${formatRupiah.format(total)}",
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+
+                Text(
+                    text = "Pay →",
+                    color = Color.White,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp
+                )
+
+            }
+
         }
 
         Spacer(
             modifier = Modifier.height(20.dp)
         )
+
     }
+
 }
 
 @Composable

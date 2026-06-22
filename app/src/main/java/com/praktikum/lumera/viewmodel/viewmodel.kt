@@ -4,6 +4,8 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 
+import com.praktikum.lumera.data.local.dao.TransactionDao
+import com.praktikum.lumera.data.local.entity.TransactionEntity
 import com.praktikum.lumera.datastore.UserPreferences
 import com.praktikum.lumera.model.CartItem
 import com.praktikum.lumera.model.Menu
@@ -11,14 +13,19 @@ import com.praktikum.lumera.model.Transaction
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 import javax.inject.Inject
 
 @HiltViewModel
 class CartViewModel @Inject constructor(
 
-    private val userPreferences: UserPreferences
+    private val userPreferences: UserPreferences,
+
+    private val transactionDao: TransactionDao
 
 ) : ViewModel() {
 
@@ -35,10 +42,25 @@ class CartViewModel @Inject constructor(
         mutableStateListOf<Transaction>()
 
     // =========================
-    // FAVORITE MENU
+    // FAVORITE MENU (Menu lengkap, hasil pencocokan favoriteIds
+    // dengan daftar menu API terkini)
     // =========================
     val favoriteMenus =
         mutableStateListOf<Menu>()
+
+    // =========================
+    // FAVORITE MENU ID (disimpan terpisah dari objek Menu,
+    // supaya tidak bergantung pada data dummy MenuData lagi)
+    // =========================
+    private val favoriteIds =
+        mutableStateListOf<Int>()
+
+    init {
+
+        loadTransactions()
+
+        loadFavoriteIds()
+    }
 
     // =========================
     // ADD TO CART
@@ -57,7 +79,9 @@ class CartViewModel @Inject constructor(
 
         extraShot: Boolean = false,
 
-        notes: String = ""
+        notes: String = "",
+
+        customPrice: Int = 0
     ) {
 
         val existing = cart.find {
@@ -99,7 +123,9 @@ class CartViewModel @Inject constructor(
 
                     extraShot = extraShot,
 
-                    notes = notes
+                    notes = notes,
+
+                    customPrice = customPrice
                 )
             )
         }
@@ -170,17 +196,21 @@ class CartViewModel @Inject constructor(
     // =========================
     fun toggleFavorite(
 
-        menu: Menu
+        menu: Menu,
+
+        allMenus: List<Menu> = favoriteMenus
     ) {
 
-        if (favoriteMenus.contains(menu)) {
+        if (favoriteIds.contains(menu.id)) {
 
-            favoriteMenus.remove(menu)
+            favoriteIds.remove(menu.id)
 
         } else {
 
-            favoriteMenus.add(menu)
+            favoriteIds.add(menu.id)
         }
+
+        refreshFavoriteMenus(allMenus.ifEmpty { listOf(menu) })
 
         saveFavorites()
     }
@@ -193,13 +223,15 @@ class CartViewModel @Inject constructor(
         menu: Menu
     ): Boolean {
 
-        return favoriteMenus.contains(menu)
+        return favoriteIds.contains(menu.id)
     }
 
     // =========================
     // CLEAR FAVORITES
     // =========================
     fun clearFavorites() {
+
+        favoriteIds.clear()
 
         favoriteMenus.clear()
 
@@ -215,12 +247,51 @@ class CartViewModel @Inject constructor(
 
             userPreferences.saveFavorites(
 
-                favoriteMenus.map {
-
-                    it.id
-                }
+                favoriteIds.toList()
             )
         }
+    }
+
+    // =========================
+    // LOAD FAVORITE IDS (dari DataStore, saat ViewModel dibuat)
+    // =========================
+    private fun loadFavoriteIds() {
+
+        viewModelScope.launch {
+
+            val savedIds = withContext(Dispatchers.IO) {
+
+                userPreferences.getFavorites.first()
+            }
+
+            favoriteIds.clear()
+
+            favoriteIds.addAll(savedIds)
+        }
+    }
+
+    // =========================
+    // REFRESH FAVORITE MENUS (Week 11)
+    //
+    // Dipanggil dari UI (misalnya lewat LaunchedEffect di HomeScreen)
+    // setiap kali daftar menu dari API (MenuViewModel.menus) berubah,
+    // supaya favoriteMenus selalu mencocokkan favoriteIds dengan data
+    // menu TERKINI dari server -- bukan data dummy MenuData yang lama.
+    // =========================
+    fun refreshFavoriteMenus(
+
+        allMenus: List<Menu>
+    ) {
+
+        val matched =
+            allMenus.filter { menu ->
+
+                menu.id in favoriteIds
+            }
+
+        favoriteMenus.clear()
+
+        favoriteMenus.addAll(matched)
     }
 
     // =========================
@@ -238,7 +309,7 @@ class CartViewModel @Inject constructor(
 
         return cart.sumOf {
 
-            it.menu.price * it.quantity
+            (it.menu.price + it.customPrice) * it.quantity
         }
     }
 
@@ -251,5 +322,68 @@ class CartViewModel @Inject constructor(
     ) {
 
         transactions.add(transaction)
+
+        viewModelScope.launch(Dispatchers.IO) {
+
+            transactionDao.insertTransaction(
+
+                transaction.toEntity()
+            )
+        }
+    }
+
+    private fun loadTransactions() {
+
+        viewModelScope.launch {
+
+            val savedTransactions = withContext(Dispatchers.IO) {
+
+                transactionDao.getAllTransactions()
+                    .map {
+
+                        it.toTransaction()
+                    }
+            }
+
+            transactions.clear()
+
+            transactions.addAll(savedTransactions)
+        }
+    }
+
+    private fun Transaction.toEntity(): TransactionEntity {
+
+        return TransactionEntity(
+
+            customerName = customerName,
+
+            cashierName = cashierName,
+
+            items = items,
+
+            total = total,
+
+            paymentMethod = paymentMethod,
+
+            date = date
+        )
+    }
+
+    private fun TransactionEntity.toTransaction(): Transaction {
+
+        return Transaction(
+
+            customerName = customerName,
+
+            items = items,
+
+            total = total,
+
+            paymentMethod = paymentMethod,
+
+            cashierName = cashierName,
+
+            date = date
+        )
     }
 }

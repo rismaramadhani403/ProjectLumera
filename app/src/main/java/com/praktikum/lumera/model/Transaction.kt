@@ -4,6 +4,8 @@ data class Transaction(
 
     val customerName: String,
 
+    val items: String,
+
     val total: Int,
 
     val paymentMethod: String,

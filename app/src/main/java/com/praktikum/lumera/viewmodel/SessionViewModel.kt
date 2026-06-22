@@ -30,6 +30,7 @@ class SessionViewModel @Inject constructor(
             initialValue = User(
                 name = "",
                 email = "",
+                password = "",
                 role = "Customer"
             )
         )

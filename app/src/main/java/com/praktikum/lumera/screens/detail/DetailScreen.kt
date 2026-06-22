@@ -1,59 +1,52 @@
 package com.praktikum.lumera.screens.detail
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import coil.compose.AsyncImage
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-
 import androidx.compose.foundation.verticalScroll
-
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
-
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-
 import androidx.compose.ui.draw.clip
-
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-
 import androidx.compose.ui.layout.ContentScale
-
 import androidx.compose.ui.res.painterResource
-
 import androidx.compose.ui.text.font.FontWeight
-
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
 import com.praktikum.lumera.model.Menu
 import com.praktikum.lumera.utils.formatRupiah
 import com.praktikum.lumera.viewmodel.CartViewModel
@@ -65,8 +58,10 @@ fun DetailScreen(
 
     cartViewModel: CartViewModel,
 
-    onBack: () -> Unit
-) {
+    onBack: () -> Unit,
+
+    onCartClick: () -> Unit
+){
 
     // =========================
     // STATES
@@ -150,20 +145,35 @@ fun DetailScreen(
         // =========================
         Box {
 
-            Image(
+            if (menu.imageUrl.isNotBlank()) {
 
-                painter = painterResource(
-                    id = menu.image
-                ),
+                // Gambar dari server (data API), Week 11
+                AsyncImage(
+                    model = menu.imageUrl,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(280.dp),
+                    contentScale = ContentScale.Crop
+                )
 
-                contentDescription = null,
+            } else {
 
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(370.dp),
+                Image(
 
-                contentScale = ContentScale.Crop
-            )
+                    painter = painterResource(
+                        id = menu.image
+                    ),
+
+                    contentDescription = null,
+
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(280.dp),
+
+                    contentScale = ContentScale.Crop
+                )
+            }
 
             // =========================
             // GRADIENT OVERLAY
@@ -172,7 +182,7 @@ fun DetailScreen(
 
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(370.dp)
+                    .height(280.dp)
                     .background(
 
                         Brush.verticalGradient(
@@ -227,7 +237,7 @@ fun DetailScreen(
 
                 text = menu.name,
 
-                fontSize = 34.sp,
+                fontSize = 28.sp,
 
                 fontWeight = FontWeight.ExtraBold
             )
@@ -247,7 +257,11 @@ fun DetailScreen(
             ) {
 
                 Text(
-                    text = menu.category,
+                    text =
+                        if (menu.category == "Coffee")
+                            "☕ Coffee"
+                        else
+                            "🍰 Dessert",
                     color = Color(0xFFD99A3E),
                     fontWeight = FontWeight.Bold,
                     fontSize = 12.sp
@@ -264,21 +278,12 @@ fun DetailScreen(
             ) {
 
                 Text(
-
                     text =
-                        "⭐ ${menu.rating}"
-                )
+                        "⭐ ${menu.rating} • ${menu.reviews} Reviews",
 
-                Spacer(
-                    modifier = Modifier.width(8.dp)
-                )
+                    color = Color.Gray,
 
-                Text(
-
-                    text =
-                        "(${menu.reviews} Reviews)",
-
-                    color = Color.Gray
+                    fontSize = 14.sp
                 )
             }
 
@@ -302,23 +307,6 @@ fun DetailScreen(
                 modifier = Modifier.height(20.dp)
             )
 
-            Row {
-
-                Text(
-                    text = "⏱ 10-15 Min",
-                    color = Color.Gray
-                )
-
-                Spacer(
-                    modifier = Modifier.width(16.dp)
-                )
-
-                Text(
-                    text = "🔥 Fresh Brew",
-                    color = Color.Gray
-                )
-            }
-
             // =========================
             // PRICE
             // =========================
@@ -326,7 +314,7 @@ fun DetailScreen(
 
                 text = formatRupiah(totalPrice),
 
-                fontSize = 24.sp,
+                fontSize = 28.sp,
 
                 color = Color(0xFFD99A3E),
 
@@ -334,7 +322,7 @@ fun DetailScreen(
             )
 
             Spacer(
-                modifier = Modifier.height(34.dp)
+                modifier = Modifier.height(20.dp)
             )
 
             // =========================
@@ -346,221 +334,147 @@ fun DetailScreen(
                 // SIZE OPTION
                 // =========================
                 Text(
-
-                    text = "☕ Choose Size",
-
+                    text = "Size",
                     fontWeight = FontWeight.Bold,
-
-                    fontSize = 20.sp
+                    fontSize = 18.sp
                 )
 
                 Spacer(
-                    modifier = Modifier.height(14.dp)
+                    modifier = Modifier.height(12.dp)
                 )
 
-                PremiumOptionCard(
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
 
-                    title = "Small",
-
-                    selected =
-                        selectedSize == "Small",
-
-                    onClick = {
-
+                    SizeChip(
+                        text = "S",
+                        selected = selectedSize == "Small"
+                    ) {
                         selectedSize = "Small"
                     }
-                )
 
-                Spacer(
-                    modifier = Modifier.height(12.dp)
-                )
-
-                PremiumOptionCard(
-
-                    title = "Medium (+4K)",
-
-                    selected =
-                        selectedSize == "Medium",
-
-                    onClick = {
-
+                    SizeChip(
+                        text = "M",
+                        selected = selectedSize == "Medium"
+                    ) {
                         selectedSize = "Medium"
                     }
-                )
 
-                Spacer(
-                    modifier = Modifier.height(12.dp)
-                )
-
-                PremiumOptionCard(
-
-                    title = "Large (+8K)",
-
-                    selected =
-                        selectedSize == "Large",
-
-                    onClick = {
-
+                    SizeChip(
+                        text = "L",
+                        selected = selectedSize == "Large"
+                    ) {
                         selectedSize = "Large"
                     }
-                )
+                }
 
                 Spacer(
-                    modifier = Modifier.height(30.dp)
+                    modifier = Modifier.height(24.dp)
                 )
 
                 // =========================
                 // ICE OPTION
                 // =========================
                 Text(
-
-                    text = "🧊 Ice Level",
-
+                    text = "Ice Level",
                     fontWeight = FontWeight.Bold,
-
-                    fontSize = 20.sp
-                )
-
-                Spacer(
-                    modifier = Modifier.height(14.dp)
-                )
-
-                PremiumOptionCard(
-
-                    title = "Less Ice",
-
-                    selected =
-                        selectedIce == "Less Ice",
-
-                    onClick = {
-
-                        selectedIce =
-                            "Less Ice"
-                    }
+                    fontSize = 18.sp
                 )
 
                 Spacer(
                     modifier = Modifier.height(12.dp)
                 )
 
-                PremiumOptionCard(
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
 
-                    title = "Normal Ice",
-
-                    selected =
-                        selectedIce == "Normal Ice",
-
-                    onClick = {
-
-                        selectedIce =
-                            "Normal Ice"
+                    SizeChip(
+                        text = "Less",
+                        selected = selectedIce == "Less Ice"
+                    ) {
+                        selectedIce = "Less Ice"
                     }
-                )
+
+                    SizeChip(
+                        text = "Normal",
+                        selected = selectedIce == "Normal Ice"
+                    ) {
+                        selectedIce = "Normal Ice"
+                    }
+                }
 
                 Spacer(
-                    modifier = Modifier.height(30.dp)
+                    modifier = Modifier.height(24.dp)
                 )
 
                 // =========================
                 // SUGAR OPTION
                 // =========================
                 Text(
-
-                    text = "🍬 Sugar Level",
-
+                    text = "Sugar Level",
                     fontWeight = FontWeight.Bold,
-
-                    fontSize = 20.sp
-                )
-
-                Spacer(
-                    modifier = Modifier.height(14.dp)
-                )
-
-                PremiumOptionCard(
-
-                    title = "Normal Sugar",
-
-                    selected =
-                        selectedSugar ==
-                                "Normal Sugar",
-
-                    onClick = {
-
-                        selectedSugar =
-                            "Normal Sugar"
-                    }
+                    fontSize = 18.sp
                 )
 
                 Spacer(
                     modifier = Modifier.height(12.dp)
                 )
 
-                PremiumOptionCard(
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
 
-                    title = "Less Sugar",
-
-                    selected =
-                        selectedSugar ==
-                                "Less Sugar",
-
-                    onClick = {
-
-                        selectedSugar =
-                            "Less Sugar"
+                    SizeChip(
+                        text = "No",
+                        selected = selectedSugar == "No Sugar"
+                    ) {
+                        selectedSugar = "No Sugar"
                     }
-                )
+
+                    SizeChip(
+                        text = "Less",
+                        selected = selectedSugar == "Less Sugar"
+                    ) {
+                        selectedSugar = "Less Sugar"
+                    }
+
+                    SizeChip(
+                        text = "Normal",
+                        selected = selectedSugar == "Normal Sugar"
+                    ) {
+                        selectedSugar = "Normal Sugar"
+                    }
+                }
 
                 Spacer(
-                    modifier = Modifier.height(12.dp)
-                )
-
-                PremiumOptionCard(
-
-                    title = "No Sugar",
-
-                    selected =
-                        selectedSugar ==
-                                "No Sugar",
-
-                    onClick = {
-
-                        selectedSugar =
-                            "No Sugar"
-                    }
-                )
-
-                Spacer(
-                    modifier = Modifier.height(30.dp)
+                    modifier = Modifier.height(24.dp)
                 )
 
                 // =========================
                 // EXTRA SHOT
                 // =========================
                 Text(
-
-                    text = "⚡ Extra Topping",
-
+                    text = "Extra Shot",
                     fontWeight = FontWeight.Bold,
-
-                    fontSize = 20.sp
+                    fontSize = 18.sp
                 )
 
                 Spacer(
-                    modifier = Modifier.height(14.dp)
+                    modifier = Modifier.height(12.dp)
                 )
 
                 Row(
 
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clip(
-                            RoundedCornerShape(24.dp)
-                        )
-                        .background(
-                            Color.White
-                        )
-                        .padding(18.dp),
+                        .clip(RoundedCornerShape(18.dp))
+                        .background(Color.White)
+                        .padding(
+                            horizontal = 18.dp,
+                            vertical = 14.dp
+                        ),
 
                     horizontalArrangement =
                         Arrangement.SpaceBetween,
@@ -570,24 +484,19 @@ fun DetailScreen(
                 ) {
 
                     Text(
-
-                        text =
-                            "Extra Shot +${formatRupiah(3000)}"
+                        text = "☕ + Rp 3.000"
                     )
 
                     Checkbox(
-
                         checked = extraShot,
-
                         onCheckedChange = {
-
                             extraShot = it
                         }
                     )
                 }
 
                 Spacer(
-                    modifier = Modifier.height(30.dp)
+                    modifier = Modifier.height(24.dp)
                 )
             }
 
@@ -596,7 +505,7 @@ fun DetailScreen(
             // =========================
             Text(
 
-                text = "📝 Special Notes",
+                text = "Notes",
 
                 fontWeight = FontWeight.Bold,
 
@@ -612,138 +521,191 @@ fun DetailScreen(
                 value = notes,
 
                 onValueChange = {
-
                     notes = it
                 },
 
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(60.dp),
 
                 placeholder = {
-
                     Text(
-                        text =
-                            "Less sweet please..."
+                        text = "Less sweet please..."
                     )
                 },
 
-                shape = RoundedCornerShape(20.dp)
+                shape = RoundedCornerShape(18.dp)
+            )
+        }
+
+        Spacer(
+            modifier = Modifier.height(36.dp)
+        )
+
+        // =========================
+        // QUANTITY + TOTAL
+        // =========================
+        Row(
+
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp),
+
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+
+            QuantityButton("-") {
+                if (quantity > 1) quantity--
+            }
+
+            Text(
+
+                text = quantity.toString(),
+
+                modifier = Modifier.padding(
+                    horizontal = 12.dp
+                ),
+
+                fontWeight = FontWeight.Bold,
+
+                fontSize = 18.sp
             )
 
-            Spacer(
-                modifier = Modifier.height(36.dp)
-            )
-
-            // =========================
-            // QUANTITY + BUTTON
-            // =========================
-            Row(
-
-                modifier = Modifier.fillMaxWidth(),
-
-                horizontalArrangement =
-                    Arrangement.SpaceBetween,
-
-                verticalAlignment =
-                    Alignment.CenterVertically
-            ) {
-
-                Row(
-
-                    verticalAlignment =
-                        Alignment.CenterVertically
-                ) {
-
-                    QuantityButton(
-                        text = "-"
-                    ) {
-
-                        if (quantity > 1)
-                            quantity--
-                    }
-
-                    Text(
-
-                        text = quantity.toString(),
-
-                        modifier = Modifier
-                            .padding(
-                                horizontal = 20.dp
-                            ),
-
-                        fontSize = 22.sp,
-
-                        fontWeight =
-                            FontWeight.Bold
-                    )
-
-                    QuantityButton(
-                        text = "+"
-                    ) {
-
-                        quantity++
-                    }
-                }
-
-                Button(
-
-                    onClick = {
-
-                        cartViewModel.addToCart(
-
-                            menu = menu,
-
-                            quantity = quantity,
-
-                            size = selectedSize,
-
-                            ice = selectedIce,
-
-                            sugar = selectedSugar,
-
-                            extraShot = extraShot,
-
-                            notes = notes
-                        )
-
-                        onBack()
-                    },
-
-                    shape = RoundedCornerShape(
-                        24.dp
-                    ),
-
-                    colors =
-                        ButtonDefaults.buttonColors(
-
-                            containerColor =
-                                Color(0xFFC68642)
-                        )
-                ) {
-
-                    Text(
-
-                        text =
-                            "Add To Cart • ${formatRupiah(totalPrice)}",
-
-                        color = Color.White,
-
-                        modifier = Modifier.padding(
-
-                            horizontal = 14.dp,
-
-                            vertical = 8.dp
-                        )
-                    )
-                }
+            QuantityButton("+") {
+                quantity++
             }
 
             Spacer(
-                modifier = Modifier.height(30.dp)
+                modifier = Modifier.width(24.dp)
             )
+
+            Column {
+
+                Text(
+
+                    text = "Total",
+
+                    fontSize = 15.sp,
+
+                    color = Color.Gray
+                )
+
+                Text(
+
+                    text = formatRupiah(totalPrice),
+
+                    fontSize = 20.sp,
+
+                    fontWeight = FontWeight.Bold,
+
+                    color = Color.Black
+                )
+            }
         }
+
+        Spacer(
+            modifier = Modifier.height(16.dp)
+        )
+
+        Button(
+
+            onClick = {
+
+                cartViewModel.addToCart(
+
+                    menu = menu,
+
+                    quantity = quantity,
+
+                    size = selectedSize,
+
+                    ice = selectedIce,
+
+                    sugar = selectedSugar,
+
+                    extraShot = extraShot,
+
+                    notes = notes,
+
+                    customPrice =
+                        sizePrice +
+                                if (extraShot) 3000 else 0
+                )
+
+                onCartClick()
+            },
+
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(48.dp),
+
+            shape = RoundedCornerShape(14.dp),
+
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFFD99A3E)
+            )
+
+        ) {
+
+            Text(
+                text = "Add To Cart",
+                color = Color.White,
+                fontWeight = FontWeight.Bold
+            )
+
+        }
+
+    }
+
+}
+@Composable
+fun SizeChip(
+
+    text: String,
+
+    selected: Boolean,
+
+    onClick: () -> Unit
+
+) {
+
+    Box(
+
+        modifier = Modifier
+            .clip(
+                RoundedCornerShape(18.dp)
+            )
+            .background(
+                if (selected)
+                    Color(0xFFFFF3E0)
+                else
+                    Color.White
+            )
+            .clickable {
+                onClick()
+            }
+            .padding(
+                horizontal = 28.dp,
+                vertical = 14.dp
+            )
+
+    ) {
+
+        Text(
+
+            text = text,
+
+            color =
+                if (selected)
+                    Color(0xFFD99A3E)
+                else
+                    Color.Black,
+
+            fontWeight =
+                FontWeight.Bold
+        )
     }
 }
-
 @Composable
 fun PremiumOptionCard(
 
@@ -799,26 +761,32 @@ fun QuantityButton(
     onClick: () -> Unit
 ) {
 
-    Button(
+    OutlinedButton(
 
         onClick = onClick,
 
+        modifier = Modifier.size(40.dp),
+
         shape = CircleShape,
 
-        colors = ButtonDefaults.buttonColors(
+        border = BorderStroke(
+            1.dp,
+            Color.LightGray
+        ),
 
-            containerColor =
-                Color(0xFFD99A3E)
-        )
+        contentPadding = PaddingValues(0.dp)
+
     ) {
 
         Text(
 
             text = text,
 
-            color = Color.White,
+            color = Color.Black,
 
-            fontSize = 20.sp
+            fontSize = 18.sp,
+
+            fontWeight = FontWeight.Bold
         )
     }
 }

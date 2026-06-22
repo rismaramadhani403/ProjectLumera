@@ -10,50 +10,66 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
-
 import androidx.compose.runtime.Composable
-
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-
 import androidx.compose.ui.draw.clip
-
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-
 import androidx.compose.ui.text.font.FontWeight
-
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
-import com.praktikum.lumera.data.OrderHistoryData
-import com.praktikum.lumera.model.OrderHistory
-
+import com.praktikum.lumera.data.SessionManager
+import com.praktikum.lumera.model.Transaction
 import com.praktikum.lumera.utils.formatRupiah
 
 @Composable
 fun OrderHistoryScreen(
 
-    onBack: () -> Unit
-) {
+    transactions: List<Transaction>,
 
-    val histories =
-        OrderHistoryData.historyList
+    onBack: () -> Unit
+){
+
+    val currentUser =
+        SessionManager.currentUser.value
+
+    val histories = when (currentUser?.role) {
+
+        "Admin" -> {
+
+            transactions
+        }
+
+        "Kasir" -> {
+
+            transactions.filter {
+
+                it.cashierName ==
+                        currentUser.name
+            }
+        }
+
+        else -> {
+
+            transactions.filter {
+
+                it.customerName ==
+                        currentUser?.name
+            }
+        }
+    }
 
     Column(
 
@@ -194,10 +210,10 @@ fun OrderHistoryScreen(
                     Arrangement.spacedBy(18.dp)
             ) {
 
-                items(histories) { history ->
+                items(histories) { transaction ->
 
                     OrderHistoryCard(
-                        history = history
+                        transaction = transaction
                     )
                 }
             }
@@ -208,7 +224,7 @@ fun OrderHistoryScreen(
 @Composable
 fun OrderHistoryCard(
 
-    history: OrderHistory
+    transaction: Transaction
 ) {
 
     Card(
@@ -250,7 +266,7 @@ fun OrderHistoryCard(
 
                 Text(
 
-                    text = history.title,
+                    text = transaction.customerName,
 
                     color = Color.White,
 
@@ -276,7 +292,7 @@ fun OrderHistoryCard(
 
                     Text(
 
-                        text = history.status,
+                        text = "Completed",
 
                         color = Color.White,
 
@@ -297,7 +313,7 @@ fun OrderHistoryCard(
             Text(
 
                 text =
-                    formatRupiah(history.total),
+                    formatRupiah(transaction.total),
 
                 color = Color(0xFFD99A3E),
 
@@ -316,7 +332,7 @@ fun OrderHistoryCard(
             Text(
 
                 text =
-                    "Payment : ${history.paymentMethod}",
+                    "Payment : ${transaction.paymentMethod}",
 
                 color = Color.LightGray
             )
@@ -331,7 +347,7 @@ fun OrderHistoryCard(
             Text(
 
                 text =
-                    "Date : ${history.date}",
+                    "Date : ${transaction.date}",
 
                 color = Color.LightGray
             )

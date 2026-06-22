@@ -4,7 +4,9 @@ import android.os.Bundle
 
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.room.Room
 
+import com.praktikum.lumera.data.local.database.LumeraDatabase
 import com.praktikum.lumera.datastore.UserPreferences
 
 import com.praktikum.lumera.navigation.AppNavigation
@@ -29,13 +31,23 @@ class MainActivity : ComponentActivity() {
 
             UserPreferences(this)
 
+        val database =
+
+            Room.databaseBuilder(
+                this,
+                LumeraDatabase::class.java,
+                "lumera_database"
+            ).fallbackToDestructiveMigration()
+                .build()
+
         // =========================
         // CART VIEWMODEL
         // =========================
         val cartViewModel =
 
             CartViewModel(
-                userPreferences
+                userPreferences,
+                database.transactionDao()
             )
 
         // =========================

@@ -235,7 +235,8 @@ fun ReceiptScreen(
                         text =
                             "${item.quantity} x ${
                                 formatRupiah(
-                                    item.menu.price
+                                    item.menu.price +
+                                            item.customPrice
                                 )
                             }"
                     )

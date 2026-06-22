@@ -19,22 +19,22 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
-import androidx.compose.material.icons.automirrored.filled.List
-import androidx.compose.material.icons.filled.ArrowForward
-import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Notifications
-import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Payment
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -44,6 +44,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.praktikum.lumera.data.SessionManager
 import com.praktikum.lumera.datastore.UserPreferences
 
 @Composable
@@ -57,28 +58,33 @@ fun ProfileScreen(
 
     onHistoryClick: () -> Unit,
 
-    onAddressClick: () -> Unit,
-
     onPaymentMethodClick: () -> Unit,
 
     onNotificationClick: () -> Unit,
 
-    onSettingsClick: () -> Unit
+    onSettingsClick: () -> Unit,
+
+    onAddressClick: () -> Unit,
+
+    // TODO: ganti default 0 ini dengan data asli dari CartViewModel/OrderViewModel
+    // begitu data transaksi & favorit customer sudah tersedia
+    orderCount: Int = 0,
+
+    favoriteCount: Int = 0
+
 ) {
 
-    val user by userPreferences
-        .getUser
-        .collectAsState(
+    // Pakai SessionManager (di-update buat SEMUA role saat login),
+    // bukan userPreferences.getUser (cuma ke-update pas Customer register/login)
+    val user = SessionManager.currentUser.value
+    val roleBadge = when (user?.role) {
 
-            initial = null
-        )
+        "Admin" -> "Administrator"
 
-    // =========================
-    // LOGIN STATUS
-    // =========================
-    val isLoggedIn =
+        "Kasir" -> "Cashier"
 
-        !user?.email.isNullOrEmpty()
+        else -> "Member"
+    }
 
     Column(
 
@@ -109,39 +115,355 @@ fun ProfileScreen(
             modifier = Modifier.height(40.dp)
         )
 
-        // =========================
-        // BACK BUTTON
-        // =========================
-        Row(
-
-            modifier = Modifier.fillMaxWidth(),
-
-            horizontalArrangement =
-                Arrangement.Start
+        Box(
+            modifier = Modifier.fillMaxWidth()
         ) {
 
-            Box(
-
+            IconButton(
+                onClick = onBackClick,
                 modifier = Modifier
+                    .align(Alignment.CenterStart)
                     .clip(CircleShape)
-                    .background(
-                        Color(0xFFD99A3E)
-                    )
-                    .clickable {
-
-                        onBackClick()
-                    }
-                    .padding(12.dp)
+                    .background(Color(0xFFD99A3E))
             ) {
 
                 Icon(
-
                     imageVector =
                         Icons.AutoMirrored.Filled.ArrowBack,
-
                     contentDescription = null,
-
                     tint = Color.White
+                )
+            }
+
+            Text(
+                text = "Profile",
+
+                modifier = Modifier.align(
+                    Alignment.Center
+                ),
+
+                color = Color.White,
+
+                fontWeight = FontWeight.Bold,
+
+                fontSize = 26.sp
+            )
+        }
+
+        Spacer(
+            modifier = Modifier.height(30.dp)
+        )
+
+        Card(
+
+            modifier = Modifier.fillMaxWidth(),
+
+            shape = RoundedCornerShape(32.dp),
+
+            colors = CardDefaults.cardColors(
+
+                containerColor =
+                    Color(0xFF2A1A12)
+            )
+        ) {
+
+            Column(
+
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(24.dp),
+
+                horizontalAlignment =
+                    Alignment.CenterHorizontally
+            ) {
+
+                Box(
+
+                    modifier = Modifier
+                        .size(120.dp)
+                        .clip(CircleShape)
+                        .background(Color(0xFFD99A3E)),
+
+                    contentAlignment =
+                        Alignment.Center
+                ) {
+
+                    Text(
+
+                        text =
+                            user?.name
+                                ?.firstOrNull()
+                                ?.uppercase()
+                                ?: "G",
+
+                        color = Color.White,
+
+                        fontSize = 42.sp,
+
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+
+                Spacer(
+                    modifier = Modifier.height(16.dp)
+                )
+
+                Text(
+
+                    text =
+                        user?.name ?: "Guest",
+
+                    color = Color.White,
+
+                    fontWeight = FontWeight.ExtraBold,
+
+                    fontSize = 30.sp
+                )
+
+                Text(
+
+                    text =
+                        user?.email ?: "",
+
+                    color = Color.LightGray
+                )
+
+                Spacer(
+                    modifier = Modifier.height(14.dp)
+                )
+
+                Surface(
+
+                    color = Color(0xFFD99A3E),
+
+                    shape = RoundedCornerShape(50.dp)
+                ) {
+
+                    Text(
+
+                        text = roleBadge,
+
+                        modifier = Modifier.padding(
+
+                            horizontal = 22.dp,
+                            vertical = 10.dp
+                        ),
+
+                        color = Color.White,
+
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
+        }
+
+        Spacer(
+            modifier = Modifier.height(24.dp)
+        )
+
+        when (user?.role) {
+
+            "Admin" -> {
+
+                RoleCard(
+                    title = "Administrator",
+                    value = "System Control",
+                    subtitle = "Manage products, users and reports"
+                )
+            }
+
+            "Kasir" -> {
+
+                RoleCard(
+                    title = "Cashier Dashboard",
+                    value = "Ready To Serve",
+                    subtitle = "Manage customer orders efficiently"
+                )
+            }
+
+            else -> {
+
+                RoleCard(
+                    title = "Customer",
+                    value = "Lumera Member",
+                    subtitle = "Enjoy your coffee experience"
+                )
+            }
+        }
+
+        Spacer(
+            modifier = Modifier.height(18.dp)
+        )
+
+        Card(
+
+            modifier = Modifier.fillMaxWidth(),
+
+            shape = RoundedCornerShape(24.dp),
+
+            colors = CardDefaults.cardColors(
+
+                containerColor =
+                    Color.White.copy(alpha = 0.05f)
+            )
+        ) {
+
+            Row(
+
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(20.dp),
+
+                horizontalArrangement =
+                    Arrangement.SpaceEvenly
+            ) {
+
+                when (user?.role) {
+
+                    "Admin" -> {
+
+                        StatisticColumn(
+                            "18",
+                            "Customers"
+                        )
+
+                        StatisticColumn(
+                            "5",
+                            "Cashiers"
+                        )
+                    }
+
+                    "Kasir" -> {
+
+                        StatisticColumn(
+                            "08:00",
+                            "Start"
+                        )
+
+                        StatisticColumn(
+                            "16:00",
+                            "Finish"
+                        )
+                    }
+
+                    else -> {
+
+                        StatisticColumn(
+                            orderCount.toString(),
+                            "Orders"
+                        )
+
+                        StatisticColumn(
+                            favoriteCount.toString(),
+                            "Favorites"
+                        )
+                    }
+                }
+            }
+        }
+
+        Spacer(
+            modifier = Modifier.height(28.dp)
+        )
+
+        when (user?.role) {
+
+            "Admin" -> {
+
+                ProfileMenuItem(
+                    Icons.Default.History,
+                    "Sales Report",
+                    onHistoryClick
+                )
+
+                ProfileMenuItem(
+                    Icons.Default.Payment,
+                    "Manage Products",
+                    onPaymentMethodClick
+                )
+
+                ProfileMenuItem(
+                    Icons.Default.Notifications,
+                    "Manage Users",
+                    onNotificationClick
+                )
+
+                ProfileMenuItem(
+                    Icons.Default.LocationOn,
+                    "Address",
+                    onAddressClick
+                )
+
+                ProfileMenuItem(
+                    Icons.Default.Settings,
+                    "System Settings",
+                    onSettingsClick
+                )
+            }
+
+            "Kasir" -> {
+
+                ProfileMenuItem(
+                    Icons.Default.History,
+                    "Transaction History",
+                    onHistoryClick
+                )
+
+                ProfileMenuItem(
+                    Icons.Default.Payment,
+                    "Today's Orders",
+                    onPaymentMethodClick
+                )
+
+                ProfileMenuItem(
+                    Icons.Default.Notifications,
+                    "Notifications",
+                    onNotificationClick
+                )
+
+                ProfileMenuItem(
+                    Icons.Default.LocationOn,
+                    "Address",
+                    onAddressClick
+                )
+
+                ProfileMenuItem(
+                    Icons.Default.Settings,
+                    "Shift Settings",
+                    onSettingsClick
+                )
+            }
+
+            else -> {
+
+                ProfileMenuItem(
+                    Icons.Default.History,
+                    "Order History",
+                    onHistoryClick
+                )
+
+                ProfileMenuItem(
+                    Icons.Default.Payment,
+                    "Payment Method",
+                    onPaymentMethodClick
+                )
+
+                ProfileMenuItem(
+                    Icons.Default.Notifications,
+                    "Notifications",
+                    onNotificationClick
+                )
+
+                ProfileMenuItem(
+                    Icons.Default.LocationOn,
+                    "Delivery Address",
+                    onAddressClick
+                )
+
+                ProfileMenuItem(
+                    Icons.Default.Settings,
+                    "Account Settings",
+                    onSettingsClick
                 )
             }
         }
@@ -150,123 +472,40 @@ fun ProfileScreen(
             modifier = Modifier.height(24.dp)
         )
 
-        // =========================
-        // TITLE
-        // =========================
-        Text(
+        Button(
 
-            text = "Profile",
-
-            color = Color.White,
-
-            fontWeight = FontWeight.Bold,
-
-            fontSize = 30.sp
-        )
-
-        Spacer(
-            modifier = Modifier.height(30.dp)
-        )
-
-        // =========================
-        // PROFILE PHOTO
-        // =========================
-        Box(
-            modifier = Modifier
-                .size(130.dp)
-                .clip(CircleShape)
-                .background(Color(0xFFD99A3E)),
-            contentAlignment = Alignment.Center
-        ) {
-
-            Text(
-                text = user?.name?.firstOrNull()?.toString() ?: "G",
-                color = Color.White,
-                fontSize = 48.sp,
-                fontWeight = FontWeight.Bold
-            )
-        }
-
-        Spacer(
-            modifier = Modifier.height(18.dp)
-        )
-
-        // =========================
-        // NAME
-        // =========================
-        Text(
-
-            text = if (isLoggedIn) {
-
-                user?.name ?: "User"
-
-            } else {
-
-                "Guest"
-            },
-
-            color = Color.White,
-
-            fontWeight = FontWeight.ExtraBold,
-
-            fontSize = 34.sp
-        )
-
-        Spacer(
-            modifier = Modifier.height(6.dp)
-        )
-
-        // =========================
-        // EMAIL
-        // =========================
-        Text(
-
-            text = if (isLoggedIn) {
-
-                user?.email ?: ""
-
-            } else {
-
-                "Please login to continue"
-            },
-
-            color = Color.LightGray,
-
-            fontSize = 16.sp
-        )
-
-        Spacer(
-            modifier = Modifier.height(16.dp)
-        )
-
-        // =========================
-        // ROLE BADGE
-        // =========================
-        Box(
+            onClick = onLogoutClick,
 
             modifier = Modifier
-                .clip(
-                    RoundedCornerShape(20.dp)
-                )
-                .background(
+                .fillMaxWidth()
+                .height(58.dp),
+
+            shape = RoundedCornerShape(20.dp),
+
+            colors = ButtonDefaults.buttonColors(
+
+                containerColor =
                     Color(0xFFD99A3E)
-                )
-                .padding(
-                    horizontal = 22.dp,
-                    vertical = 8.dp
-                )
+            )
         ) {
+
+            Icon(
+
+                imageVector =
+                    Icons.AutoMirrored.Filled.ExitToApp,
+
+                contentDescription = null,
+
+                tint = Color.White
+            )
+
+            Spacer(
+                modifier = Modifier.width(8.dp)
+            )
 
             Text(
 
-                text = if (isLoggedIn) {
-
-                    user?.role ?: "Customer"
-
-                } else {
-
-                    "Guest Mode"
-                },
+                text = "Logout",
 
                 color = Color.White,
 
@@ -274,264 +513,27 @@ fun ProfileScreen(
             )
         }
 
-        // =========================
-        // SHOW ONLY IF LOGIN
-        // =========================
-        if (isLoggedIn) {
-
-            // =========================
-            // PREMIUM MEMBER CARD
-            // =========================
-            Spacer(
-                modifier = Modifier.height(28.dp)
-            )
-
-            Card(
-
-                modifier = Modifier
-                    .fillMaxWidth(),
-
-                colors = CardDefaults.cardColors(
-
-                    containerColor =
-                        Color(0xFFD99A3E)
-                ),
-
-                shape = RoundedCornerShape(30.dp)
-            ) {
-
-                Column(
-
-                    modifier = Modifier.padding(22.dp)
-                ) {
-
-                    Text(
-
-                        text = "Gold Member ☕",
-
-                        color = Color.White,
-
-                        fontWeight = FontWeight.Bold,
-
-                        fontSize = 24.sp
-                    )
-
-                    Spacer(
-                        modifier = Modifier.height(8.dp)
-                    )
-
-                    Text(
-
-                        text =
-                            "Enjoy 10% discount for every coffee purchase.",
-
-                        color = Color.White.copy(
-                            alpha = 0.9f
-                        )
-                    )
-                }
-            }
-
-            Spacer(
-                modifier = Modifier.height(28.dp)
-            )
-
-            // =========================
-            // MY ACTIVITY
-            // =========================
-            Text(
-                text = "My Activity",
-                color = Color.White,
-                fontWeight = FontWeight.Bold,
-                fontSize = 20.sp
-            )
-
-            Spacer(
-                modifier = Modifier.height(16.dp)
-            )
-
-            // =========================
-            // STATISTICS
-            // =========================
-            Row(
-
-                modifier = Modifier.fillMaxWidth(),
-
-                horizontalArrangement =
-                    Arrangement.SpaceBetween
-            ) {
-
-                StatisticItem(
-                    "12",
-                    "Orders"
-                )
-
-                StatisticItem(
-                    "24",
-                    "Favorites"
-                )
-
-                StatisticItem(
-                    "120",
-                    "Points"
-                )
-            }
-
-            Spacer(
-                modifier = Modifier.height(34.dp)
-            )
-
-            // =========================
-            // PROFILE MENU
-            // =========================
-            ProfileItem(
-
-                icon =
-                    Icons.AutoMirrored.Filled.List,
-
-                title = "Order History",
-
-                onClick = {
-
-                    onHistoryClick()
-                }
-            )
-
-            ProfileItem(
-
-                icon = Icons.Default.LocationOn,
-
-                title = "Delivery Address",
-
-                onClick = {
-
-                    onAddressClick()
-                }
-            )
-
-            ProfileItem(
-
-                icon = Icons.Default.Email,
-
-                title = "Payment Method",
-
-                onClick = {
-
-                    onPaymentMethodClick()
-                }
-            )
-
-            ProfileItem(
-
-                icon = Icons.Default.Notifications,
-
-                title = "Notifications",
-
-                onClick = {
-
-                    onNotificationClick()
-                }
-            )
-
-            ProfileItem(
-
-                icon = Icons.Default.Person,
-
-                title = "Account Settings",
-
-                onClick = {
-
-                    onSettingsClick()
-                }
-            )
-
-            Spacer(
-                modifier = Modifier.height(34.dp)
-            )
-
-            // =========================
-            // LOGOUT BUTTON
-            // =========================
-            Button(
-
-                onClick = {
-
-                    onLogoutClick()
-                },
-
-                colors = ButtonDefaults.buttonColors(
-
-                    containerColor =
-                        Color(0xFFD99A3E)
-                ),
-
-                shape = RoundedCornerShape(24.dp),
-
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(58.dp)
-            ) {
-
-                Icon(
-
-                    imageVector =
-                        Icons.AutoMirrored.Filled.ExitToApp,
-
-                    contentDescription = null,
-
-                    tint = Color.White
-                )
-
-                Spacer(
-                    modifier = Modifier.width(10.dp)
-                )
-
-                Text(
-
-                    text = "Logout",
-
-                    color = Color.White,
-
-                    fontWeight = FontWeight.Bold,
-
-                    fontSize = 16.sp
-                )
-            }
-        }
-
-        Spacer(
-            modifier = Modifier.height(20.dp)
-        )
-
-        Text(
-            text = "LUMERA Coffee App v1.0.0",
-            color = Color.LightGray,
-            fontSize = 12.sp
-        )
-
         Spacer(
             modifier = Modifier.height(30.dp)
         )
-
-    } // Column
-
-} // ProfileScreen
+    }
+}
 
 @Composable
-fun ProfileItem(
+fun ProfileMenuItem(
 
     icon: ImageVector,
 
     title: String,
 
-    onClick: () -> Unit = {}
+    onClick: () -> Unit
 ) {
 
     Card(
 
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp)
+            .padding(vertical = 6.dp)
             .clickable {
 
                 onClick()
@@ -540,12 +542,10 @@ fun ProfileItem(
         colors = CardDefaults.cardColors(
 
             containerColor =
-                Color.White.copy(
-                    alpha = 0.12f
-                )
+                Color.White.copy(alpha = 0.08f)
         ),
 
-        shape = RoundedCornerShape(26.dp)
+        shape = RoundedCornerShape(20.dp)
     ) {
 
         Row(
@@ -577,7 +577,7 @@ fun ProfileItem(
                 )
 
                 Spacer(
-                    modifier = Modifier.width(16.dp)
+                    modifier = Modifier.width(14.dp)
                 )
 
                 Text(
@@ -586,16 +586,14 @@ fun ProfileItem(
 
                     color = Color.White,
 
-                    fontWeight = FontWeight.Bold,
-
-                    fontSize = 16.sp
+                    fontWeight = FontWeight.Medium
                 )
             }
 
             Icon(
 
                 imageVector =
-                    Icons.Default.ArrowForward,
+                    Icons.AutoMirrored.Filled.ArrowForward,
 
                 contentDescription = null,
 
@@ -606,37 +604,45 @@ fun ProfileItem(
 }
 
 @Composable
-fun StatisticItem(
+fun RoleCard(
+
+    title: String,
 
     value: String,
 
-    title: String
+    subtitle: String
 ) {
 
     Card(
 
-        modifier = Modifier.width(100.dp),
+        modifier = Modifier.fillMaxWidth(),
+
+        shape = RoundedCornerShape(28.dp),
 
         colors = CardDefaults.cardColors(
 
             containerColor =
-                Color.White.copy(
-                    alpha = 0.1f
-                )
-        ),
-
-        shape = RoundedCornerShape(24.dp)
+                Color(0xFF2A1A12)
+        )
     ) {
 
         Column(
 
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(18.dp),
-
-            horizontalAlignment =
-                Alignment.CenterHorizontally
+            modifier = Modifier.padding(24.dp)
         ) {
+
+            Text(
+
+                text = title,
+
+                color = Color(0xFFD99A3E),
+
+                fontWeight = FontWeight.Bold
+            )
+
+            Spacer(
+                modifier = Modifier.height(8.dp)
+            )
 
             Text(
 
@@ -644,9 +650,9 @@ fun StatisticItem(
 
                 color = Color.White,
 
-                fontWeight = FontWeight.Bold,
+                fontSize = 36.sp,
 
-                fontSize = 24.sp
+                fontWeight = FontWeight.ExtraBold
             )
 
             Spacer(
@@ -655,13 +661,44 @@ fun StatisticItem(
 
             Text(
 
-                text = title,
+                text = subtitle,
 
-                color = Color.LightGray,
-
-                fontSize = 12.sp
+                color = Color.LightGray
             )
-
         }
+    }
+}
+
+@Composable
+fun StatisticColumn(
+
+    value: String,
+
+    title: String
+) {
+
+    Column(
+
+        horizontalAlignment =
+            Alignment.CenterHorizontally
+    ) {
+
+        Text(
+
+            text = value,
+
+            color = Color.White,
+
+            fontSize = 24.sp,
+
+            fontWeight = FontWeight.Bold
+        )
+
+        Text(
+
+            text = title,
+
+            color = Color.LightGray
+        )
     }
 }

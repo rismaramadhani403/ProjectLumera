@@ -7,6 +7,10 @@ plugins {
     alias(libs.plugins.hilt)
 }
 
+kapt {
+    correctErrorTypes = true
+}
+
 android {
 
     namespace = "com.praktikum.lumera"
@@ -45,13 +49,12 @@ android {
     }
 
     compileOptions {
-
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlin {
-        jvmToolchain(11)
+        jvmToolchain(17)
     }
 
     buildFeatures {
@@ -90,6 +93,8 @@ dependencies {
 
     implementation(libs.androidx.navigation.compose)
 
+    implementation("androidx.compose.material:material-icons-extended")
+
     // ViewModel Compose
     implementation(
         "androidx.lifecycle:lifecycle-viewmodel-compose:2.8.2"
@@ -105,5 +110,17 @@ dependencies {
     kapt(libs.hilt.compiler)
 
     implementation(libs.androidx.hilt.navigation.compose)
-}
 
+    // ROOM DATABASE
+    implementation("androidx.room:room-runtime:2.7.2")
+    implementation("androidx.room:room-ktx:2.7.2")
+    kapt("androidx.room:room-compiler:2.7.2")
+
+    // RETROFIT (koneksi ke API PHP) - Week 11
+    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+
+    // COIL (load gambar menu dari URL server, bukan drawable lokal lagi)
+    implementation("io.coil-kt:coil-compose:2.6.0")
+}

@@ -29,6 +29,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.praktikum.lumera.R
+import com.praktikum.lumera.ui.theme.Playfair
+import com.praktikum.lumera.ui.theme.PlayfairItalic
+import com.praktikum.lumera.ui.theme.Poppins
 import kotlinx.coroutines.delay
 
 @Composable
@@ -91,14 +94,10 @@ fun SplashScreen(
                     Brush.verticalGradient(
 
                         colors = listOf(
-
-                            Color.Black.copy(alpha = 0.65f),
-
+                            Color.Black.copy(alpha = 0.82f),
                             Color.Transparent,
-
-                            Color.Black.copy(alpha = 0.15f),
-
-                            Color.Black.copy(alpha = 0.85f)
+                            Color.Black.copy(alpha = 0.45f),
+                            Color.Black.copy(alpha = 0.92f)
                         )
                     )
                 )
@@ -120,7 +119,7 @@ fun SplashScreen(
 
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(bottom = 90.dp),
+                    .padding(bottom = 120.dp),
 
                 verticalArrangement =
                     Arrangement.Bottom,
@@ -133,14 +132,11 @@ fun SplashScreen(
                 // APP TITLE
                 // =========================
                 Text(
-
-                    text = "LUMERA ☕",
-
+                    text = "LUMERA",
                     color = Color.White,
-
-                    fontSize = 46.sp,
-
-                    fontWeight = FontWeight.ExtraBold
+                    fontFamily = Playfair,
+                    fontSize = 52.sp,
+                    fontWeight = FontWeight.Bold
                 )
 
                 Spacer(
@@ -151,14 +147,10 @@ fun SplashScreen(
                 // SUBTITLE
                 // =========================
                 Text(
-
-                    text = "Coffee Shop",
-
+                    text = "Coffee Experience",
                     color = Color(0xFFC47A2C),
-
-                    fontSize = 20.sp,
-
-                    fontWeight = FontWeight.Medium
+                    fontFamily = Poppins,
+                    fontSize = 18.sp
                 )
 
                 Spacer(
@@ -168,15 +160,11 @@ fun SplashScreen(
                 // =========================
                 // TAGLINE
                 // =========================
-                Text(
-
-                    text = "Brew Your Day ☕",
-
-                    color = Color.White.copy(
-                        alpha = 0.82f
-                    ),
-
-                    fontSize = 15.sp
+                    Text(
+                        text = "Crafted With Passion",
+                        color = Color.White.copy(alpha = 0.85f),
+                        fontFamily = PlayfairItalic,
+                        fontSize = 17.sp
                 )
             }
         }

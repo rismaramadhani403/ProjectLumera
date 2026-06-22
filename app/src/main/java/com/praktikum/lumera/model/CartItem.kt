@@ -6,9 +6,6 @@ data class CartItem(
 
     var quantity: Int,
 
-    // =========================
-    // CUSTOMIZATION
-    // =========================
     val size: String = "",
 
     val ice: String = "",
@@ -17,5 +14,7 @@ data class CartItem(
 
     val extraShot: Boolean = false,
 
-    val notes: String = ""
+    val notes: String = "",
+
+    val customPrice: Int = 0
 )

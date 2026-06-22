@@ -35,6 +35,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.praktikum.lumera.model.Menu
 import com.praktikum.lumera.utils.formatRupiah
 import com.praktikum.lumera.viewmodel.CartViewModel
@@ -48,7 +49,9 @@ fun MenuItemCard(
 
     onSelectMenu: (Menu) -> Unit,
 
-    favoriteMenus: SnapshotStateList<Menu>
+    favoriteMenus: SnapshotStateList<Menu>,
+
+    allMenus: List<Menu> = emptyList()
 ) {
 
     // =========================
@@ -56,6 +59,10 @@ fun MenuItemCard(
     // =========================
     val isFavorite =
         favoriteMenus.contains(menu)
+    val isInCart =
+        cartViewModel.cart.any {
+            it.menu.id == menu.id
+        }
 
     // =========================
     // CARD
@@ -63,14 +70,14 @@ fun MenuItemCard(
     Card(
 
         modifier = Modifier
-            .width(180.dp)
+            .width(190.dp)
             .animateContentSize()
             .clickable {
 
                 onSelectMenu(menu)
             },
 
-        shape = RoundedCornerShape(30.dp),
+        shape = RoundedCornerShape(24.dp),
 
         elevation =
             CardDefaults.cardElevation(
@@ -80,7 +87,7 @@ fun MenuItemCard(
         colors = CardDefaults.cardColors(
 
             containerColor =
-                Color(0xFF2A1E18)
+                Color(0xFF241814)
         )
     ) {
 
@@ -91,20 +98,36 @@ fun MenuItemCard(
             // =========================
             Box {
 
-                Image(
+                if (menu.imageUrl.isNotBlank()) {
 
-                    painter = painterResource(
-                        id = menu.image
-                    ),
+                    // Gambar dari server (data API), Week 11
+                    AsyncImage(
+                        model = menu.imageUrl,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(130.dp),
+                        contentScale = ContentScale.Crop
+                    )
 
-                    contentDescription = null,
+                } else {
 
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(250.dp),
+                    // Fallback: gambar drawable lokal (data dummy lama)
+                    Image(
 
-                    contentScale = ContentScale.Crop
-                )
+                        painter = painterResource(
+                            id = menu.image
+                        ),
+
+                        contentDescription = null,
+
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(130.dp),
+
+                        contentScale = ContentScale.Crop
+                    )
+                }
 
                 // =========================
                 // DARK OVERLAY
@@ -113,7 +136,7 @@ fun MenuItemCard(
 
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(250.dp)
+                        .height(130.dp)
                         .background(
 
                             Color.Black.copy(
@@ -121,28 +144,7 @@ fun MenuItemCard(
                             )
                         )
                 )
-                if (menu.isBestSeller) {
 
-                    Box(
-                        modifier = Modifier
-                            .align(Alignment.TopStart)
-                            .padding(14.dp)
-                            .clip(RoundedCornerShape(50.dp))
-                            .background(Color(0xFFD99A3E))
-                            .padding(
-                                horizontal = 14.dp,
-                                vertical = 6.dp
-                            )
-                    ){
-
-                        Text(
-                            text = "Best Seller",
-                            color = Color.White,
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
-                }
                 // =========================
                 // FAVORITE BUTTON
                 // =========================
@@ -158,7 +160,8 @@ fun MenuItemCard(
                         .clickable {
 
                             cartViewModel.toggleFavorite(
-                                menu
+                                menu,
+                                allMenus
                             )
                         }
                         .align(Alignment.TopEnd),
@@ -194,9 +197,8 @@ fun MenuItemCard(
             // CONTENT
             // =========================
             Column(
-
                 modifier = Modifier.padding(16.dp)
-            ) {
+            ){
 
                 // =========================
                 // MENU NAME
@@ -206,35 +208,54 @@ fun MenuItemCard(
                     color = Color.White,
                     fontWeight = FontWeight.Bold,
                     fontSize = 17.sp,
-                    maxLines = 2
+                    maxLines = 2,
+                    minLines = 2
+                )
+
+                Spacer(
+                    modifier = Modifier.height(4.dp)
+                )
+
+                Text(
+                    text = menu.description.ifBlank { "Freshly brewed coffee" },
+                    color = Color.LightGray,
+                    fontSize = 13.sp,
+                    maxLines = 1,
+                    minLines = 1
                 )
 
                 Spacer(
                     modifier = Modifier.height(6.dp)
                 )
 
-                // =========================
-                // CATEGORY BADGE
-                // =========================
                 Box(
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(50.dp))
-                        .background(Color(0xFFD99A3E))
-                        .padding(
-                            horizontal = 10.dp,
-                            vertical = 4.dp
-                        )
+                    modifier = Modifier.height(28.dp)
                 ) {
-                    Text(
-                        text = menu.category,
-                        color = Color.White,
-                        fontSize = 11.sp,
-                        fontWeight = FontWeight.Bold
-                    )
+
+                    if (menu.isBestSeller) {
+
+                        Box(
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(50.dp))
+                                .background(Color(0xFFFFC107))
+                                .padding(
+                                    horizontal = 10.dp,
+                                    vertical = 4.dp
+                                )
+                        ) {
+
+                            Text(
+                                text = "⭐ Best Seller",
+                                color = Color.Black,
+                                fontSize = 10.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
+                    }
                 }
 
                 Spacer(
-                    modifier = Modifier.height(10.dp)
+                    modifier = Modifier.height(8.dp)
                 )
 
                 // =========================
@@ -263,7 +284,7 @@ fun MenuItemCard(
                 }
 
                 Spacer(
-                    modifier = Modifier.height(14.dp)
+                    modifier = Modifier.height(12.dp)
                 )
 
                 // =========================
@@ -279,7 +300,7 @@ fun MenuItemCard(
                         text = formatRupiah(menu.price),
                         color = Color(0xFFD99A3E),
                         fontWeight = FontWeight.Bold,
-                        fontSize = 18.sp
+                        fontSize = 20.sp
                     )
 
                     Box(
@@ -288,11 +309,7 @@ fun MenuItemCard(
                             .clip(CircleShape)
                             .background(Color(0xFFD99A3E))
                             .clickable {
-
-                                cartViewModel.addToCart(
-                                    menu,
-                                    1
-                                )
+                                cartViewModel.addToCart(menu, 1)
                             },
                         contentAlignment = Alignment.Center
                     ) {

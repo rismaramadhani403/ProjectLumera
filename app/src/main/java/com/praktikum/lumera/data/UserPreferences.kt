@@ -8,6 +8,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 
 import androidx.datastore.preferences.preferencesDataStore
 
+import com.praktikum.lumera.model.AddressItem
 import com.praktikum.lumera.model.User
 
 import kotlinx.coroutines.flow.Flow
@@ -17,6 +18,14 @@ private val Context.dataStore by preferencesDataStore(
 
     name = "user_preferences"
 )
+
+// =========================
+// SEPARATOR UNTUK SERIALISASI ADDRESS
+// (pakai control character biar gak bentrok
+// sama input user biasa)
+// =========================
+private const val ADDRESS_FIELD_SEP = "\u001F"
+private const val ADDRESS_ITEM_SEP = "\u001E"
 
 class UserPreferences(
 
@@ -34,6 +43,9 @@ class UserPreferences(
         val EMAIL =
             stringPreferencesKey("email")
 
+        val PASSWORD =
+            stringPreferencesKey("password")
+
         val ROLE =
             stringPreferencesKey("role")
 
@@ -46,6 +58,14 @@ class UserPreferences(
         val FAVORITE_KEY =
             stringPreferencesKey(
                 "favorite_key"
+            )
+
+        // =========================
+        // SAVED ADDRESSES
+        // =========================
+        val ADDRESS_KEY =
+            stringPreferencesKey(
+                "address_key"
             )
     }
 
@@ -64,6 +84,9 @@ class UserPreferences(
 
             pref[EMAIL] =
                 user.email
+
+            pref[PASSWORD] =
+                user.password
 
             pref[ROLE] =
                 user.role
@@ -86,6 +109,9 @@ class UserPreferences(
 
                 email =
                     pref[EMAIL] ?: "",
+
+                password =
+                    pref[PASSWORD] ?: "",
 
                 role =
                     pref[ROLE] ?: "Customer"
@@ -151,7 +177,73 @@ class UserPreferences(
 
         context.dataStore.edit { pref ->
 
-            pref.clear()
+            pref[IS_LOGIN] = false
         }
     }
+
+    // =========================
+    // SAVE ADDRESSES
+    // =========================
+    suspend fun saveAddresses(
+
+        addresses: List<AddressItem>
+    ) {
+
+        context.dataStore.edit { pref ->
+
+            pref[ADDRESS_KEY] =
+
+                addresses.joinToString(
+                    separator = ADDRESS_ITEM_SEP
+                ) { item ->
+
+                    listOf(
+                        item.id,
+                        item.title,
+                        item.address
+                    ).joinToString(
+                        separator = ADDRESS_FIELD_SEP
+                    )
+                }
+        }
+    }
+
+    // =========================
+    // GET ADDRESSES
+    // =========================
+    val getAddresses: Flow<List<AddressItem>> =
+
+        context.dataStore.data.map { pref ->
+
+            val raw =
+                pref[ADDRESS_KEY] ?: ""
+
+            if (raw.isEmpty()) {
+
+                emptyList()
+
+            } else {
+
+                raw.split(ADDRESS_ITEM_SEP)
+
+                    .mapNotNull { entry ->
+
+                        val parts =
+                            entry.split(ADDRESS_FIELD_SEP)
+
+                        if (parts.size == 3) {
+
+                            AddressItem(
+                                id = parts[0].toIntOrNull() ?: 0,
+                                title = parts[1],
+                                address = parts[2]
+                            )
+
+                        } else {
+
+                            null
+                        }
+                    }
+            }
+        }
 }

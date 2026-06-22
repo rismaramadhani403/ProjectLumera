@@ -15,6 +15,10 @@ data class Menu(
 
     val image: Int,
 
+    // URL gambar dari server (API), dipakai saat data berasal dari database.
+    // Kalau kosong, berarti pakai drawable lokal (image) seperti sebelumnya.
+    val imageUrl: String = "",
+
     // =========================
     // PREMIUM FEATURES
     // =========================

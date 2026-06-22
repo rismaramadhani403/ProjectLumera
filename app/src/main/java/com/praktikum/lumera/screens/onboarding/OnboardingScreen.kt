@@ -3,7 +3,17 @@ package com.praktikum.lumera.screens.onboarding
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -20,6 +30,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.praktikum.lumera.R
+import com.praktikum.lumera.ui.theme.Playfair
+import com.praktikum.lumera.ui.theme.PlayfairItalic
 import com.praktikum.lumera.ui.theme.Poppins
 
 @Composable
@@ -58,11 +70,11 @@ fun OnboardingScreen(
 
                         colors = listOf(
 
-                            Color.Black.copy(alpha = 0.65f),
+                            Color.Black.copy(alpha = 0.82f),
 
                             Color.Transparent,
 
-                            Color.Black.copy(alpha = 0.85f)
+                            Color.Black.copy(alpha = 0.92f)
                         )
                     )
                 )
@@ -90,7 +102,7 @@ fun OnboardingScreen(
             Box(
 
                 modifier = Modifier
-                    .size(240.dp)
+                    .size(220.dp)
                     .clip(CircleShape)
                     .background(
                         Brush.radialGradient(
@@ -115,7 +127,7 @@ fun OnboardingScreen(
                     contentDescription = null,
 
                     modifier = Modifier
-                        .size(220.dp)
+                        .size(200.dp)
                         .clip(CircleShape),
 
                     contentScale = ContentScale.Crop
@@ -124,39 +136,47 @@ fun OnboardingScreen(
 
             // TITLE DOWN
             Spacer(
-                modifier = Modifier.height(105.dp)
+                modifier = Modifier.height(50.dp)
             )
 
             // Title
             Text(
-                text = "Cafe Corner",
-
+                text = "Premium Coffee",
                 color = Color.White,
-
-                fontFamily = Poppins,
-
-                fontWeight = FontWeight.Bold,
-
-                fontSize = 30.sp
+                fontFamily = Playfair,
+                fontSize = 32.sp
             )
 
             Spacer(
-                modifier = Modifier.height(18.dp)
+                modifier = Modifier.height(6.dp)
+            )
+
+            Text(
+                text = "Crafted With Passion",
+
+                color = Color(0xFFC47A2C),
+
+                fontFamily = PlayfairItalic,
+
+                fontSize = 17.sp
+            )
+
+            Spacer(
+                modifier = Modifier.height(6.dp)
             )
 
             // Description
             Text(
-                text = "Enjoy your coffee to make your day more enjoyable, and use vouchers to make it even more enjoyable.",
+                text =
+                    "Nikmati kopi pilihan dengan cita rasa terbaik yang diracik khusus untuk menemani harimu.",
 
-                color = Color.White.copy(alpha = 0.78f),
+                color = Color.White.copy(alpha = 0.85f),
 
                 fontFamily = Poppins,
 
-                fontWeight = FontWeight.Normal,
-
                 fontSize = 15.sp,
 
-                lineHeight = 25.sp,
+                lineHeight = 26.sp,
 
                 textAlign = TextAlign.Center
             )
@@ -223,13 +243,13 @@ fun OnboardingScreen(
                 ) {
 
                     Text(
-                        text = "Next",
+                        text = "Get Started",
 
                         color = Color.White,
 
                         fontFamily = Poppins,
 
-                        fontWeight = FontWeight.SemiBold,
+                        fontWeight = FontWeight.Bold,
 
                         fontSize = 18.sp
                     )
