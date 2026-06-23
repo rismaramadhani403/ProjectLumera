@@ -9,7 +9,7 @@
   <img src="https://img.shields.io/badge/DB-Room%202.7.2-teal?style=for-the-badge" />
   <img src="https://img.shields.io/badge/Network-Retrofit%202.11.0-blue?style=for-the-badge" />
   <img src="https://img.shields.io/badge/Version-1.0-lightgrey?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/Status-Completed-success?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Status-Completed-success?style=for-the-badge" /> 
 </p>
 
 ---
